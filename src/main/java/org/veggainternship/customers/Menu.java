@@ -36,24 +36,23 @@ public class Menu {
         System.out.println("3: Delete user ");
         System.out.println("4: Find user by ID ");
         System.out.println("5: Find user by Email ");
-        System.out.println("6: Find user by Name or Surname ");
-        System.out.println("7: Find user by City ");
-        System.out.println("8: Find user by Country ");
+        System.out.println("6: Find user by Name ");
+        System.out.println("7: Find user by Surname ");
+        System.out.println("8: Find user by City ");
+        System.out.println("9: Find user by Country ");
 
-        outer:
         do {
             System.out.println("Enter an option: ");
 
             if (scan.hasNextInt()) {
                 option = scan.nextInt();
 
-                if (option > 0 && option <= 8) {
+                if (option > 0 && option <= 9) {
                     System.out.println("Successfully entered ");
                     entrar = true;
                 } else if (option == 0) {
                     System.out.println("Successfully exited ");
                     entrar = false;
-                    break outer;
                 }else{
                     System.out.println("Invalid option. Please enter a number between 0 and 8.");
                 }

@@ -22,24 +22,28 @@ public class Main {
                 option = menu.optionsMenu();
 
                 if (option == 1) {
-                    System.out.println("Has entered create user");
                     customer.create(customer);
-                    //System.out.println(customer.toString());
                     customers.add(customer);
-                } else if (option == 2) {
+                } else if (option == 2) {// falle el update
                     customer.update(customers);
-                    System.out.println(customer.toString());
                 } else if (option == 3) {
                     customer.delete(customers);
-                    System.out.println(customer.toString());
-                    customers.remove(customer);
                 } else if (option == 4) {
                     customer.findByNIF(customers);
-                    System.out.println(customer.toString());
+                }else if (option == 5) {
+                    customer.findByEmail(customers);
+                }else if (option == 6) {
+                    customer.findByName(customers);
+                }else if (option == 7) {
+                    customer.findBySurname(customers);
+                }else if (option == 8) {
+                    customer.findByCity(customers);
+                }else if (option == 9) {
+                    customer.findByCountry(customers);
                 }else {
                     entrar = false;
                 }
-                //customer.listAll(customers); mostra tots els customers de l arraylist
+                //customer.listAll(customers);
             }
         } while (entrar);
     }

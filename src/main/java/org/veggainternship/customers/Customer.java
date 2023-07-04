@@ -1,5 +1,6 @@
 package org.veggainternship.customers;
 
+import java.lang.management.GarbageCollectorMXBean;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.Semaphore;
@@ -61,50 +62,51 @@ public class Customer {
         String NIFtoErase = scan.nextLine();
         boolean customerFound = false;
 
+        outer:
         for (Customer customer : customers) {
             if (customerFound == false) {
                 if (customer.getNIF().equalsIgnoreCase(NIFtoErase)) {
-                    customers.remove(customer);
                     System.out.println("Customer with NIF " + NIFtoErase + " has been successfully removed from the database.");
+                    customers.remove(customer);
                     customerFound = true;
+                    break outer; // per a que no peti si nomes hi ha un client a l arraylist
                 } else {
                     System.out.println("Customer with NIF " + NIFtoErase + " was not found in the database.");
                 }
             }
         }
-
     }
-
     public void update(ArrayList<Customer> customers) {
         System.out.println("NIF of the customer that you want to update: ");
         String NIFtoUpdate = scan.nextLine();
         boolean customerFound = false;
 
         for (Customer customer : customers) {
-            if(customerFound == false) {
-                if (this.getNIF().equalsIgnoreCase(NIFtoUpdate) && (customerFound == false)) {
-
+            if (!customerFound) {
+                if (customer.getNIF().equalsIgnoreCase(NIFtoUpdate)) {
                     System.out.println("NIF: ");
-                    customer.setNIF(customer.validateNIF(scan.nextLine()));
+                    customer.setNIF(customer.validateNIF(customer.getNIF()));
 
                     System.out.println("Name: ");
-                    this.setName(scan.nextLine());
+                    customer.setName(scan.nextLine());
 
                     System.out.println("Surname: ");
-                    this.setSurname(scan.nextLine());
+                    customer.setSurname(scan.nextLine());
+
+                    customer.validateNames(customer.getName(), customer.getSurname());
 
                     System.out.println("Email: ");
-                    this.setEmail(scan.nextLine());
+                    customer.setEmail(scan.nextLine());
+                    customer.validateEmail(customer.getEmail());
 
                     System.out.println("City: ");
-                    this.setCity(scan.nextLine());
+                    customer.setCity(scan.nextLine());
 
                     System.out.println("Country: ");
-                    this.setCountry(scan.nextLine());
+                    customer.setCountry(scan.nextLine());
 
                     System.out.println("Customer with NIF " + customer.getNIF() + " has been updated.");
                     customerFound = true;
-
                 }
             }
         }
@@ -114,6 +116,8 @@ public class Customer {
         }
     }
 
+
+    //finds
     public void findByNIF(ArrayList<Customer> customers) {
         System.out.println("NIF of the customer you want to see: ");
         NIF = scan.nextLine();
@@ -133,8 +137,103 @@ public class Customer {
             System.out.println("Customer with NIF " + NIF + " was not found in the database.");
         }
     }
+    public void findByEmail(ArrayList<Customer> customers) {
+        System.out.println("Email of the customer you want to see: ");
+        Email = scan.nextLine();
+        boolean customerFound = false;
 
+        for (Customer customer : customers) {
+            if(customerFound == false) {
+                if (Email.equalsIgnoreCase(customer.getEmail())) {
+                    System.out.println("The customer with the email " + customer.getEmail() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
 
+        if (!customerFound) {
+            System.out.println("Customer with email " + Email + " was not found in the database.");
+        }
+    }
+    public void findByName(ArrayList<Customer> customers) {
+        System.out.println("NIF of the customer you want to see: ");
+        Name = scan.nextLine();
+        boolean customerFound = false;
+
+        for (Customer customer : customers) {
+            if(customerFound == false) {
+                if (Name.equalsIgnoreCase(customer.getName())) {
+                    System.out.println("The customer with the name " + customer.getName() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+
+        if (!customerFound) {
+            System.out.println("Customer with name " + Name + " was not found in the database.");
+        }
+    }
+
+    public void findBySurname(ArrayList<Customer> customers) {
+        System.out.println("NIF of the customer you want to see: ");
+        Surname = scan.nextLine();
+        boolean customerFound = false;
+
+        for (Customer customer : customers) {
+            if(customerFound == false) {
+                if (Surname.equalsIgnoreCase(customer.getSurname())) {
+                    System.out.println("The customer with the name " + customer.getSurname() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+
+        if (!customerFound) {
+            System.out.println("Customer with surname " + Surname + " was not found in the database.");
+        }
+    }
+
+    public void findByCity(ArrayList<Customer> customers) {
+        System.out.println("City of the customer you want to see: ");
+        City = scan.nextLine();
+        boolean customerFound = false;
+
+        for (Customer customer : customers) {
+            if(customerFound == false) {
+                if (City.equalsIgnoreCase(customer.getCity())) {
+                    System.out.println("The customer with the NIF " + customer.getCity() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+
+        if (!customerFound) {
+            System.out.println("Customer with city " + City + " was not found in the database.");
+        }
+    }
+    public void findByCountry(ArrayList<Customer> customers) {
+        System.out.println("NIF of the customer you want to see: ");
+        Country = scan.nextLine();
+        boolean customerFound = false;
+
+        for (Customer customer : customers) {
+            if(customerFound == false) {
+                if (Country.equalsIgnoreCase(customer.getCity())) {
+                    System.out.println("The customer with the NIF " + customer.getCountry() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+
+        if (!customerFound) {
+            System.out.println("Customer with country " + Country + " was not found in the database.");
+        }
+    }
     public void listAll(ArrayList<Customer> customers){
         for (Customer customer : customers){
             System.out.println(customer.toString());
