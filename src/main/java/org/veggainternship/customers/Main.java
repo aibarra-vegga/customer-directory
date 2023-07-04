@@ -8,14 +8,14 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         Menu menu = new Menu();
         boolean entrar = false;
-        entrar = menu.menuPrincipal(entrar);
+        //entrar = menu.menuPrincipal(entrar);
+        entrar = true;
         Integer option;
 
         ArrayList<Customer> customers = new ArrayList<>();
 
         do {
 
-            //el delete va be, el create funcione pero no anyadeix mes de 1 al arraylist i el update borra les dades del customer, en tot el do while nomes tracta 1 customer
             Customer customer = new Customer();
 
             if (entrar) {
@@ -24,7 +24,7 @@ public class Main {
                 if (option == 1) {
                     customer.create(customer);
                     customers.add(customer);
-                } else if (option == 2) {// falle el update
+                } else if (option == 2) {
                     customer.update(customers);
                 } else if (option == 3) {
                     customer.delete(customers);
@@ -40,10 +40,11 @@ public class Main {
                     customer.findByCity(customers);
                 }else if (option == 9) {
                     customer.findByCountry(customers);
+                }else if (option == 10) {
+                    customer.listAll(customers);
                 }else {
                     entrar = false;
                 }
-                //customer.listAll(customers);
             }
         } while (entrar);
     }

@@ -2,6 +2,7 @@ package org.veggainternship.customers;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
@@ -53,9 +54,17 @@ public class Customer {
         this.City = scan.nextLine();
         System.out.println("Country: ");
         this.Country = scan.nextLine();
-        customers.add(customer);
+        customer.validateCountry(this.getCountry());
+
+//        if (!customers.contains(customer)) {
+//            customers.add(customer);
+//            System.out.println("Customer with NIF " + NIF + " has been created.");
+//        } else {
+//            System.out.println("Customer with NIF " + NIF + " already exists.");
+//        }
 
     }
+
     public void delete(ArrayList<Customer> customers) {
 
         System.out.println("NIF of the customer you want to erase from the database: ");
@@ -76,6 +85,7 @@ public class Customer {
             }
         }
     }
+
     public void update(ArrayList<Customer> customers) {
         System.out.println("NIF of the customer that you want to update: ");
         String NIFtoUpdate = scan.nextLine();
@@ -124,7 +134,7 @@ public class Customer {
         boolean customerFound = false;
 
         for (Customer customer : customers) {
-            if(customerFound == false) {
+            if (customerFound == false) {
                 if (NIF.equalsIgnoreCase(customer.getNIF())) {
                     System.out.println("The customer with the NIF " + customer.getNIF() + " information is: ");
                     System.out.println(customer.toString());
@@ -137,13 +147,14 @@ public class Customer {
             System.out.println("Customer with NIF " + NIF + " was not found in the database.");
         }
     }
+
     public void findByEmail(ArrayList<Customer> customers) {
         System.out.println("Email of the customer you want to see: ");
         Email = scan.nextLine();
         boolean customerFound = false;
 
         for (Customer customer : customers) {
-            if(customerFound == false) {
+            if (customerFound == false) {
                 if (Email.equalsIgnoreCase(customer.getEmail())) {
                     System.out.println("The customer with the email " + customer.getEmail() + " information is: ");
                     System.out.println(customer.toString());
@@ -156,13 +167,14 @@ public class Customer {
             System.out.println("Customer with email " + Email + " was not found in the database.");
         }
     }
+
     public void findByName(ArrayList<Customer> customers) {
         System.out.println("NIF of the customer you want to see: ");
         Name = scan.nextLine();
         boolean customerFound = false;
 
         for (Customer customer : customers) {
-            if(customerFound == false) {
+            if (customerFound == false) {
                 if (Name.equalsIgnoreCase(customer.getName())) {
                     System.out.println("The customer with the name " + customer.getName() + " information is: ");
                     System.out.println(customer.toString());
@@ -182,7 +194,7 @@ public class Customer {
         boolean customerFound = false;
 
         for (Customer customer : customers) {
-            if(customerFound == false) {
+            if (customerFound == false) {
                 if (Surname.equalsIgnoreCase(customer.getSurname())) {
                     System.out.println("The customer with the name " + customer.getSurname() + " information is: ");
                     System.out.println(customer.toString());
@@ -202,7 +214,7 @@ public class Customer {
         boolean customerFound = false;
 
         for (Customer customer : customers) {
-            if(customerFound == false) {
+            if (customerFound == false) {
                 if (City.equalsIgnoreCase(customer.getCity())) {
                     System.out.println("The customer with the NIF " + customer.getCity() + " information is: ");
                     System.out.println(customer.toString());
@@ -215,13 +227,14 @@ public class Customer {
             System.out.println("Customer with city " + City + " was not found in the database.");
         }
     }
+
     public void findByCountry(ArrayList<Customer> customers) {
         System.out.println("NIF of the customer you want to see: ");
         Country = scan.nextLine();
         boolean customerFound = false;
 
         for (Customer customer : customers) {
-            if(customerFound == false) {
+            if (customerFound == false) {
                 if (Country.equalsIgnoreCase(customer.getCity())) {
                     System.out.println("The customer with the NIF " + customer.getCountry() + " information is: ");
                     System.out.println(customer.toString());
@@ -234,102 +247,164 @@ public class Customer {
             System.out.println("Customer with country " + Country + " was not found in the database.");
         }
     }
-    public void listAll(ArrayList<Customer> customers){
-        for (Customer customer : customers){
+
+    public void listAll(ArrayList<Customer> customers) {
+        for (Customer customer : customers) {
             System.out.println(customer.toString());
         }
     }
 
     //Validacions
     public String validateEmail(String Email) {
-        ArrayList<String> correus = new ArrayList<String>();
-        correus.add(Email);
-        String patro = "^(.+)@(.+)$";
-        Pattern pattern = Pattern.compile(patro);
-        for (String correu : correus) {
-            Matcher matcher = pattern.matcher(correu);
-            System.out.println(correu + " : " + matcher.matches() + "\n");
-        }
+        boolean valid = true;
+
+        do {
+            String patro = "^(.+)@(.+)$";
+            Pattern pattern = Pattern.compile(patro);
+            Matcher matcher = pattern.matcher(Email);
+            System.out.println(Email + " : " + matcher.matches() + "\n");
+            if (matcher.matches()) {
+                valid = true;
+                System.out.println("You have entered a valid email ");
+            } else {
+                valid = false;
+                System.out.println("You have not entered a valid email, please enter a valid one: ");
+                Email = scan.nextLine();
+            }
+
+
+        } while (!valid);
         return Email;
     }
 
     public String validateNIF(String NIF) {
 
-        NIF = scan.nextLine();
         boolean valid = false;
-        String numNIF = "";
+        do {
 
-        if (NIF.length() == 9) {
-            for (int i = 0; i <= 7; i++) {
+            NIF = scan.nextLine();
+            String numNIF = "";
 
-                numNIF += NIF.charAt(i);
+            if (NIF.length() == 9) {
+                for (int i = 0; i <= 7; i++) {
 
-                if ((Character.isDigit(NIF.charAt(i)))) {
+                    numNIF += NIF.charAt(i);
+
+                    if ((Character.isDigit(NIF.charAt(i)))) {
+                        valid = true;
+                    } else {
+                        valid = false;
+                        System.out.println("This NIF is not correct. ");
+                    }
+                }
+
+                if (Character.isAlphabetic(NIF.charAt(8))) {
                     valid = true;
                 } else {
                     valid = false;
-                    System.out.println("This NIF is not correct. ");
-                    return null;
+                    System.out.println("Last character of the NIF is not a letter");
                 }
-            }
-
-            if (Character.isAlphabetic(NIF.charAt(8))) {
-                valid = true;
             } else {
-                valid = false;
-                System.out.println("Last character of the NIF is not a letter");
+                System.out.println("This NIF does not have 9 characters");
             }
-        } else {
-            System.out.println("This NIF does not have 9 characters");
-        }
 
-        // Validación del DNI
-        if (valid) {
-            char lletraDNI = NIF.charAt(8);
+            // Validación del DNI
+            if (valid) {
+                char lletraDNI = NIF.charAt(8);
 
-            int numDNI = Integer.parseInt(numNIF);
-            String DNI = "";
-            String[] lletresMaj = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
-            String[] lletresMin = {"t", "r", "w", "a", "g", "m", "y", "f", "p", "d", "x", "b", "n", "j", "z", "s", "q", "v", "h", "l", "c", "k", "e"};
+                int numDNI = Integer.parseInt(numNIF);
+                String DNI = "";
+                String[] lletresMaj = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
+                String[] lletresMin = {"t", "r", "w", "a", "g", "m", "y", "f", "p", "d", "x", "b", "n", "j", "z", "s", "q", "v", "h", "l", "c", "k", "e"};
 
-            int modDNI = numDNI % 23;
-            if (Character.isUpperCase(lletraDNI)) {
-                DNI += lletresMaj[modDNI];
-            } else if (Character.isLowerCase(lletraDNI)) {
-                DNI += lletresMin[modDNI];
-            }
-            if (lletraDNI == DNI.charAt(0)) {
-                System.out.println("This NIF is correct");
+                int modDNI = numDNI % 23;
+                if (Character.isUpperCase(lletraDNI)) {
+                    DNI += lletresMaj[modDNI];
+                } else if (Character.isLowerCase(lletraDNI)) {
+                    DNI += lletresMin[modDNI];
+                }
+                if (lletraDNI == DNI.charAt(0)) {
+                    System.out.println("This NIF is correct");
+                    valid = true;
+                } else {
+                    System.out.println("This NIF is not well calculated, please try another NIF:");
+                    valid = false;
+                }
+
             } else {
-                System.out.println("This NIF is not well calculated");
+                System.out.println("NIF is not valid, try again: ");
             }
-            return NIF;
-
-        } else {
-            return null;
-        }
+        } while (!valid);
+        return NIF;
     }
 
     public void validateNames(String name, String surname) {
         String validatedName = "";
         String validatedSurname = "";
+        boolean valid = true;
+        int counter = 0;
 
-        for (char c : name.toCharArray()) {
-            if (Character.isLetter(c) || c == ' ') {
-                validatedName += c;
-            }
-        }
+        do {
 
-        for (char c : surname.toCharArray()) {
-            if (Character.isLetter(c) || c == ' ') {
-                validatedSurname += c;
+            if ((!valid) && (counter > 0)) {
+                System.out.println("That was an incorrect name, write a valid name: ");
+                name = scan.nextLine();
+                validatedName = "";
+                System.out.println("That was an incorrect surname, write a valid surname: ");
+                surname = scan.nextLine();
+                validatedSurname = "";
             }
-        }
+
+            for (char c : name.toCharArray()) {
+                if (Character.isLetter(c) || c == ' ') {
+                    validatedName += c;
+                    valid = true;
+                } else {
+                    System.out.println(c + " is not a valid character for a name");
+                    valid = false;
+                }
+            }
+
+            for (char c : surname.toCharArray()) {
+
+                if (Character.isLetter(c) || c == ' ') {
+                    validatedSurname += c;
+                    valid = true;
+                } else {
+                    System.out.println(c + " is not a valid character for a surname");
+                    valid = false;
+                }
+            }
+            counter++;
+        } while (!valid);
 
         System.out.println(" ");
         System.out.println("The full name of this person is: " + validatedName + " " + validatedSurname);
         this.Name = validatedName;
         this.Surname = validatedSurname;
+
+    } // fa falta fer que torni a demanar be el name i el surname
+
+    public void validateCountry(String country) {
+        boolean valid = false;
+        Locale[] locales = Locale.getAvailableLocales();
+        do {
+
+            for (Locale locale : locales) {
+                if (!valid) {
+                    if (country.equalsIgnoreCase(locale.getDisplayCountry())) {
+                        valid = true;
+                    }
+                }
+            }
+
+            if (valid) {
+                System.out.println("You have entered a valid country.");
+            } else {
+                System.out.println("You have not entered a valid country, please try again.");
+                country = scan.nextLine();
+            }
+        } while (!valid);
 
     }
 
