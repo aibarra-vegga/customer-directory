@@ -27,20 +27,19 @@ public class Main {
                     //System.out.println(customer.toString());
                     customers.add(customer);
                 } else if (option == 2) {
-                    customer.update(customer.getNIF());
+                    customer.update(customers);
                     System.out.println(customer.toString());
-
                 } else if (option == 3) {
-                    customer.delete(customer.getNIF());
+                    customer.delete(customers);
                     System.out.println(customer.toString());
                     customers.remove(customer);
                 } else if (option == 4) {
-                    customer.findByNIF(customer.getNIF());
+                    customer.findByNIF(customers);
                     System.out.println(customer.toString());
                 }else {
                     entrar = false;
                 }
-                customer.listAll(customers);
+                //customer.listAll(customers); mostra tots els customers de l arraylist
             }
         } while (entrar);
     }
