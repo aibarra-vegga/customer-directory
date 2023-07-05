@@ -8,44 +8,66 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         Menu menu = new Menu();
         boolean entrar = false;
-        //entrar = menu.menuPrincipal(entrar);
+        // entrar = menu.menuPrincipal(entrar);
         entrar = true;
         Integer option;
 
-        ArrayList<Customer> customers = new ArrayList<>();
+        ArrayList<CustomerDirectoryService> customerDirectories = new ArrayList<>();
 
         do {
 
-            Customer customer = new Customer();
+            CustomerDirectoryService customerDirectory = new CustomerDirectoryService();
 
             if (entrar) {
                 option = menu.optionsMenu();
-
-                if (option == 1) {
-                    customer.create(customer);
-                    customers.add(customer);
-                } else if (option == 2) {
-                    customer.update(customers);
-                } else if (option == 3) {
-                    customer.delete(customers);
-                } else if (option == 4) {
-                    customer.findByNIF(customers);
-                }else if (option == 5) {
-                    customer.findByEmail(customers);
-                }else if (option == 6) {
-                    customer.findByName(customers);
-                }else if (option == 7) {
-                    customer.findBySurname(customers);
-                }else if (option == 8) {
-                    customer.findByCity(customers);
-                }else if (option == 9) {
-                    customer.findByCountry(customers);
-                }else if (option == 10) {
-                    customer.listAll(customers);
-                }else {
-                    entrar = false;
+                switch (option) {
+                    case 1:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.create(customerDirectory,customerDirectories);
+                        customerDirectories.add(customerDirectory);
+                        break;
+                    case 2:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.update(customerDirectories);
+                        break;
+                    case 3:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.delete(customerDirectories);
+                        break;
+                    case 4:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.findByNIF(customerDirectories);
+                        break;
+                    case 5:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.findByEmail(customerDirectories);
+                        break;
+                    case 6:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.findByName(customerDirectories);
+                        break;
+                    case 7:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.findBySurname(customerDirectories);
+                        break;
+                    case 8:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.findByCity(customerDirectories);
+                        break;
+                    case 9:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.findByCountry(customerDirectories);
+                        break;
+                    case 10:
+                        customerDirectory = new CustomerDirectoryService();
+                        customerDirectory.listAll(customerDirectories);
+                        break;
+                    default:
+                        entrar = false;
+                        break;
                 }
             }
+
         } while (entrar);
     }
 }
