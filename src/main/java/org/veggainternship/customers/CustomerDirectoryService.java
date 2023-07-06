@@ -46,15 +46,16 @@ public class CustomerDirectoryService implements CustomerDirectory {
             System.out.println("Surname: ");
             this.Surname = scan.nextLine();
             customerDirectory.validateNames(this.Name, this.Surname);
+
             System.out.println("City: ");
             this.City = scan.nextLine();
+
             System.out.println("Country: ");
             this.Country = scan.nextLine();
             customerDirectory.validateCountry(this.getCountry());
 
-            System.out.println("Email: ");
-            this.Email = scan.nextLine();
-            customerDirectory.validateEmail(this.Email);
+            this.Email = customerDirectory.validateEmail(this.Email);
+
             this.NIF = customerDirectory.validateNIF(this.NIF);
 
             if (validateNoRepeated(customerDirectories)) {
@@ -76,8 +77,9 @@ public class CustomerDirectoryService implements CustomerDirectory {
                 if (customerDirectory.getNIF().equalsIgnoreCase(NIFtoErase)) {
                     System.out.println("CustomerDirectoryService with NIF " + NIFtoErase + " has been successfully removed from the database.");
                     customerDirectories.remove(customerDirectory);
-                    customerFound = true;
-                    break outer; // per a que no peti si nomes hi ha un client a l arraylist
+                    //per si nomes es vol borrar un client
+                    //customerFound = true;
+                    //break outer; // per a que no peti si nomes hi ha un client a l arraylist
                 } else {
                     System.out.println("CustomerDirectoryService with NIF " + NIFtoErase + " was not found in the database.");
                 }
@@ -96,34 +98,34 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
                 if (!customerFound) { //per no actualitzar mes d un customer
 
-                    if (customerDirectory.getNIF().equalsIgnoreCase(NIFtoUpdate)) {
+                    if ((customerDirectory.getNIF().equalsIgnoreCase(NIFtoUpdate) && (validateNoRepeated(customerDirectories)))) {
 
-                        customerDirectory.setNIF(customerDirectory.validateNIF(customerDirectory.getNIF()));
-
-                        System.out.println("Name: ");
-                        customerDirectory.setName(scan.nextLine());
-
-                        System.out.println("Surname: ");
-                        customerDirectory.setSurname(scan.nextLine());
-
-                        customerDirectory.validateNames(customerDirectory.getName(), customerDirectory.getSurname());
-
-                        System.out.println("City: ");
-                        customerDirectory.setCity(scan.nextLine());
-
-                        System.out.println("Country: ");
-                        customerDirectory.setCountry(scan.nextLine());
-
-                        System.out.println("Email: ");
-                        customerDirectory.setEmail(scan.nextLine());
-                        customerDirectory.validateEmail(customerDirectory.getEmail());
-
-                        System.out.println("Customer with NIF " + customerDirectory.getNIF() + " has been updated.");
                         customerFound = true;
 
-                        if (validateNoRepeated(customerDirectories)) {
-                            valid = true;
-                        }
+                        do {
+                            System.out.println("Name: ");
+                            this.Name = scan.nextLine();
+
+                            System.out.println("Surname: ");
+                            this.Surname = scan.nextLine();
+                            customerDirectory.validateNames(this.Name, this.Surname);
+
+                            System.out.println("City: ");
+                            this.City = scan.nextLine();
+
+                            System.out.println("Country: ");
+                            this.Country = scan.nextLine();
+                            customerDirectory.validateCountry(this.getCountry());
+
+                            this.Email= customerDirectory.validateEmail(this.Email);
+
+                            this.NIF = customerDirectory.validateNIF(this.NIF);
+
+                            if (validateNoRepeated(customerDirectories)) {
+                                valid = true;
+                            }
+
+                        } while (!valid);
                     }
                 }
             }
@@ -133,6 +135,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
             }
 
         } while (!valid);
+
     }
 
     //finds
@@ -261,17 +264,17 @@ public class CustomerDirectoryService implements CustomerDirectory {
             System.out.println(customerDirectory.toString());
         }
     }
-
     //Validacions
     public String validateEmail(String Email) {
 
+        System.out.println("Email: ");
+        Email = scan.nextLine();
         boolean valid = true;
 
         do {
             String patro = "^(.+)@(.+)$";
             Pattern pattern = Pattern.compile(patro);
             Matcher matcher = pattern.matcher(Email);
-            System.out.println(Email + " : " + matcher.matches() + "\n");
             if (matcher.matches()) {
                 this.setEmail(Email);
                 valid = true;
@@ -388,8 +391,6 @@ public class CustomerDirectoryService implements CustomerDirectory {
             counter++;
         } while (!valid);
 
-        System.out.println(" ");
-        System.out.println("The full name of this person is: " + validatedName + " " + validatedSurname);
         this.Name = validatedName;
         this.Surname = validatedSurname;
 
@@ -421,6 +422,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
     public boolean validateNoRepeated(ArrayList<CustomerDirectoryService> customerDirectories) {
         boolean valid = true;
+        //nif
         boolean isNIFRepeated = false;
 
         for (CustomerDirectoryService customerDirectory : customerDirectories) {
@@ -435,6 +437,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
             System.out.println("Customer with NIF " + this.NIF + " already exists ");
         }
 
+        //email
         boolean isEmailRepeated = false;
 
         for (CustomerDirectoryService customerDirectory : customerDirectories) {

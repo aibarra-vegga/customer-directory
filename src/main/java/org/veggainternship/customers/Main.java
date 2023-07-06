@@ -1,14 +1,17 @@
 package org.veggainternship.customers;
 
+//falta fer les probes unitaries
+// i fer que quedi millor quan tornes a demanar un dni o un gmail si ja existeixen i arreglar la part de que el gmail siguin unics al update
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
         Scanner scan = new Scanner(System.in);
         Menu menu = new Menu();
         boolean entrar = false;
-        // entrar = menu.menuPrincipal(entrar);
+        //entrar = menu.menuPrincipal(entrar);
         entrar = true;
         Integer option;
 
@@ -20,6 +23,7 @@ public class Main {
 
             if (entrar) {
                 option = menu.optionsMenu();
+                System.out.println("\n");
                 switch (option) {
                     case 1:
                         customerDirectory = new CustomerDirectoryService();
