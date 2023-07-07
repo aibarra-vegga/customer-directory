@@ -44,7 +44,7 @@ class MainTest {
         String resultadoCity = customerDirectory1.getCity();
         String resultadoCountry = customerDirectory1.getCountry();
         assertTrue(resultadoNIF.equalsIgnoreCase(customerDirectory1.findByNIFTest(customerDirectories)));
-        assertTrue(resultadoEmail.equals(customerDirectory1.findByEmail(customerDirectories)));
+        assertTrue(resultadoEmail.equals(customerDirectory1.findByEmailTest(customerDirectories)));
         customerDirectory1.findByEmailTest(customerDirectories);
         customerDirectory1.findByNameTest(customerDirectories);
         customerDirectory1.findBySurnameTest(customerDirectories);

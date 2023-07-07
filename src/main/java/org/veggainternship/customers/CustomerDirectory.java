@@ -3,7 +3,7 @@ package org.veggainternship.customers;
 import java.util.ArrayList;
 
 public interface CustomerDirectory {
-    public void create(CustomerDirectoryService customerDirectory, ArrayList<CustomerDirectoryService> customerDirectories);
+    public Customer create(Customer customer);
     public void delete(ArrayList<CustomerDirectoryService> customerDirectories);
     public void update(ArrayList<CustomerDirectoryService> customerDirectories);
     public void findByNIF(ArrayList<CustomerDirectoryService> customerDirectories);

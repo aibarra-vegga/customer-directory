@@ -2,6 +2,7 @@ package org.veggainternship.customers;
 
 //falta fer les probes unitaries
 // i fer que quedi millor quan tornes a demanar un dni o un gmail si ja existeixen i arreglar la part de que el gmail siguin unics al update
+//fer una clase de customer, 1 de directori i una de menu per interactuar amb l usuari i printar
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,8 +16,10 @@ public class Main {
         entrar = true;
         Integer option;
 
-        ArrayList<CustomerDirectoryService> customerDirectories = new ArrayList<>();
+        CustomerDirectoryService directory = new CustomerDirectoryService();
+        directory.create(new Customer(menu.nif(), menu.name(), menu.surname(), menu.email(), menu.city(), menu.country()));
 
+        /*
         do {
 
             CustomerDirectoryService customerDirectory = new CustomerDirectoryService();
@@ -27,8 +30,8 @@ public class Main {
                 switch (option) {
                     case 1:
                         customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.create(customerDirectory,customerDirectories);
-                        customerDirectories.add(customerDirectory);
+                        customerDirectory.create(customerDirectory);
+
                         break;
                     case 2:
                         customerDirectory = new CustomerDirectoryService();
@@ -73,5 +76,7 @@ public class Main {
             }
 
         } while (entrar);
+
+         */
     }
 }

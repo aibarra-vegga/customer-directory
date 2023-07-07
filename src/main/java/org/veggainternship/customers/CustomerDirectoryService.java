@@ -7,65 +7,68 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CustomerDirectoryService implements CustomerDirectory {
-    Scanner scan = new Scanner(System.in);
-    private String NIF;
-    private String Name;
-    private String Surname;
-    private String Email;
-    private String City;
-    private String Country;
 
-    //Constructor buit i constructor ple
-    public CustomerDirectoryService() {
-        this.NIF = "";
-        this.Name = "";
-        this.Surname = "";
-        this.Email = "";
-        this.City = "";
-        this.Country = "";
+    Menu menu = new Menu();
+    ArrayList<Customer> customerDirectory = new ArrayList<>();
+
+    public Customer create(Customer customer) {
+
+        customerDirectory.add(customer);
+        System.out.println(customer.toString());
+
+        return customer;
     }
 
-    public CustomerDirectoryService(String NIF, String name, String surname, String email, String city, String country) {
-        this.NIF = NIF;
-        this.Name = name;
-        this.Surname = surname;
-        this.Email = email;
-        this.City = city;
-        this.Country = country;
+    @Override
+    public void delete(ArrayList<CustomerDirectoryService> customerDirectories) {
+
     }
 
-    ArrayList<CustomerDirectoryService> customerDirectories = new ArrayList<>();
+    @Override
+    public void update(ArrayList<CustomerDirectoryService> customerDirectories) {
 
-    public void create(CustomerDirectoryService customerDirectory, ArrayList<CustomerDirectoryService> customerDirectories) {
-
-        boolean valid = false;
-
-        do {
-
-            System.out.println("Name: ");
-            this.Name = scan.nextLine();
-            System.out.println("Surname: ");
-            this.Surname = scan.nextLine();
-            customerDirectory.validateNames(this.Name, this.Surname);
-
-            System.out.println("City: ");
-            this.City = scan.nextLine();
-
-            System.out.println("Country: ");
-            this.Country = scan.nextLine();
-            customerDirectory.validateCountry(this.getCountry());
-
-            this.Email = customerDirectory.validateEmail(this.Email);
-
-            this.NIF = customerDirectory.validateNIF(this.NIF);
-
-            if (validateNoRepeated(customerDirectories)) {
-                valid = true;
-            }
-
-        } while (!valid);
     }
 
+    @Override
+    public void findByNIF(ArrayList<CustomerDirectoryService> customerDirectories) {
+
+    }
+
+    @Override
+    public void findByEmail(ArrayList<CustomerDirectoryService> customerDirectories) {
+
+    }
+
+    @Override
+    public void findByName(ArrayList<CustomerDirectoryService> customerDirectories) {
+
+    }
+
+    @Override
+    public void findBySurname(ArrayList<CustomerDirectoryService> customerDirectories) {
+
+    }
+
+    @Override
+    public void findByCity(ArrayList<CustomerDirectoryService> customerDirectories) {
+
+    }
+
+    @Override
+    public void findByCountry(ArrayList<CustomerDirectoryService> customerDirectories) {
+
+    }
+
+    @Override
+    public void listAll(ArrayList<CustomerDirectoryService> customerDirectories) {
+
+    }
+
+    @Override
+    public boolean validateNoRepeated(ArrayList<CustomerDirectoryService> customerDirectories) {
+        return false;
+    }
+/*
     public void delete(ArrayList<CustomerDirectoryService> customerDirectories) {
 
         System.out.println("NIF of the customer you want to erase from the database: ");
@@ -140,6 +143,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
     }
 
     //finds
+
     public void findByNIF(ArrayList<CustomerDirectoryService> customerDirectories) {
         System.out.println("NIF of the customer you want to see: ");
         NIF = scan.nextLine();
@@ -266,161 +270,6 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
     }
     //Validacions
-    public String validateEmail(String Email) {
-
-        System.out.println("Email: ");
-        Email = scan.nextLine();
-        boolean valid = true;
-
-        do {
-            String patro = "^(.+)@(.+)$";
-            Pattern pattern = Pattern.compile(patro);
-            Matcher matcher = pattern.matcher(Email);
-            if (matcher.matches()) {
-                this.setEmail(Email);
-                valid = true;
-            } else {
-                valid = false;
-                System.out.println("You have not entered a valid email, please enter a valid one: ");
-                Email = scan.nextLine();
-            }
-
-        } while (!valid);
-
-        return Email;
-    }
-
-    public String validateNIF(String NIF) {
-
-        boolean valid = false;
-        do {
-
-            System.out.println("Introduce your NIF please: ");
-            NIF = scan.nextLine();
-            String numNIF = "";
-
-            if (NIF.length() == 9) {
-                for (int i = 0; i <= 7; i++) {
-
-                    numNIF += NIF.charAt(i);
-
-                    if ((Character.isDigit(NIF.charAt(i)))) {
-                        valid = true;
-                    } else {
-                        valid = false;
-                        System.out.println("This NIF is not correct. ");
-                    }
-                }
-
-                if (Character.isAlphabetic(NIF.charAt(8))) {
-                    valid = true;
-                } else {
-                    valid = false;
-                    System.out.println("Last character of the NIF is not a letter");
-                }
-            } else {
-                System.out.println("This NIF does not have 9 characters");
-            }
-
-            // Validación del DNI
-            if (valid) {
-                char lletraDNI = NIF.charAt(8);
-
-                int numDNI = Integer.parseInt(numNIF);
-                String DNI = "";
-                String[] lletresMaj = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
-                String[] lletresMin = {"t", "r", "w", "a", "g", "m", "y", "f", "p", "d", "x", "b", "n", "j", "z", "s", "q", "v", "h", "l", "c", "k", "e"};
-
-                int modDNI = numDNI % 23;
-                if (Character.isUpperCase(lletraDNI)) {
-                    DNI += lletresMaj[modDNI];
-                } else if (Character.isLowerCase(lletraDNI)) {
-                    DNI += lletresMin[modDNI];
-                }
-                if (lletraDNI == DNI.charAt(0)) {
-                    System.out.println("This NIF is correct");
-                    valid = true;
-                } else {
-                    System.out.println("This NIF is not well calculated, please try another NIF:");
-                    valid = false;
-                }
-
-            } else {
-                System.out.println("NIF is not valid, try again: ");
-            }
-        } while (!valid);
-        return NIF;
-    }
-
-    public void validateNames(String name, String surname) {
-        String validatedName = "";
-        String validatedSurname = "";
-        boolean valid = true;
-        int counter = 0;
-
-        do {
-
-            if ((!valid) && (counter > 0)) {
-                System.out.println("That was an incorrect name, write a valid name: ");
-                name = scan.nextLine();
-                validatedName = "";
-                System.out.println("That was an incorrect surname, write a valid surname: ");
-                surname = scan.nextLine();
-                validatedSurname = "";
-            }
-
-            for (char c : name.toCharArray()) {
-                if (Character.isLetter(c) || c == ' ') {
-                    validatedName += c;
-                    valid = true;
-                } else {
-                    System.out.println(c + " is not a valid character for a name");
-                    valid = false;
-                }
-            }
-
-            for (char c : surname.toCharArray()) {
-
-                if (Character.isLetter(c) || c == ' ') {
-                    validatedSurname += c;
-                    valid = true;
-                } else {
-                    System.out.println(c + " is not a valid character for a surname");
-                    valid = false;
-                }
-            }
-            counter++;
-        } while (!valid);
-
-        this.Name = validatedName;
-        this.Surname = validatedSurname;
-
-    }
-
-    public void validateCountry(String country) { // es guarde el primer valor de country encara que estigui malament
-        boolean valid = false;
-        Locale[] locales = Locale.getAvailableLocales();
-        do {
-
-            for (Locale locale : locales) {
-                if (!valid) {
-                    if (country.equalsIgnoreCase(locale.getDisplayCountry())) {
-                        valid = true;
-                        this.Country = locale.getDisplayCountry();
-                    }
-                }
-            }
-
-            if (valid) {
-                System.out.println("You have entered a valid country.");
-            } else {
-                System.out.println("You have not entered a valid country, please try again.");
-                country = scan.nextLine();
-            }
-        } while (!valid);
-
-    }
-
     public boolean validateNoRepeated(ArrayList<CustomerDirectoryService> customerDirectories) {
         boolean valid = true;
         //nif
@@ -824,65 +673,5 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
         return Country;
     }
-
-    //Getters i setters i tostring
-    public String getNIF() {
-        return NIF;
-    }
-
-    public void setNIF(String NIF) {
-        this.NIF = NIF;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getSurname() {
-        return Surname;
-    }
-
-    public void setSurname(String surname) {
-        Surname = surname;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
-    }
-
-    public String getCountry() {
-        return Country;
-    }
-
-    public void setCountry(String country) {
-        Country = country;
-    }
-
-    @Override
-    public String toString() {
-        return "CustomerDirectoryService{" +
-                "NIF='" + this.NIF + '\'' +
-                ", Name='" + this.Name + '\'' +
-                ", Surname='" + this.Surname + '\'' +
-                ", Email='" + this.Email + '\'' +
-                ", City='" + this.City + '\'' +
-                ", Country='" + this.Country + '\'' +
-                '}';
-    }
+ */
 }
