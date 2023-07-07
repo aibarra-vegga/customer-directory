@@ -110,15 +110,16 @@ public class Menu {
             String numnif = "";
 
             if (nif.length() == 9) {
+
                 for (int i = 0; i <= 7; i++) {
 
                     numnif += nif.charAt(i);
 
-                    if ((Character.isDigit(nif.charAt(i)))) {
+                    if ((Character.isDigit(numnif.charAt(i)))) {
                         valid = true;
                     } else {
                         valid = false;
-                        System.out.println("This nif is not correct. ");
+                        System.out.println("This nif is not correct, "+numnif.charAt(i)+ " is not a number ");
                     }
                 }
 
@@ -165,9 +166,9 @@ public class Menu {
     }
 
     public String name() {
+
         Scanner scan = new Scanner(System.in);
-        String validatedName = "";
-        String name = "";
+        String name = "", validatedName = "";
         boolean valid = true;
         int counter = 0;
 
@@ -178,27 +179,27 @@ public class Menu {
             if ((!valid) && (counter > 0)) {
                 System.out.println("That was an incorrect name, write a valid name: ");
                 validatedName = "";
+                name = "";
             }
-            String input = scan.nextLine();
+            validatedName = scan.nextLine();
 
-            for (char c : input.toCharArray()) {
+            for (char c : validatedName.toCharArray()) {
+
                 if (Character.isLetter(c) || c == ' ') {
-                    validatedName += c;
+                    name += c;
                     valid = true;
                 } else {
-                    System.out.println(c + " is not a valid character for a name ");
+                    System.out.println(c + " is not a valid character for a surname ");
                     valid = false;
                 }
-
             }
 
             counter++;
         } while (!valid);
 
-        name = validatedName;
-
         return name;
     }
+
     public String surname() {
 
         Scanner scan = new Scanner(System.in);
@@ -214,12 +215,13 @@ public class Menu {
             if ((!valid) && (counter > 0)) {
                 System.out.println("That was an incorrect surname, write a valid surname: ");
                 validatedSurname = "";
+                surname = "";
             }
             String input = scan.nextLine();
 
             for (char c : input.toCharArray()) {
                 if (Character.isLetter(c) || c == ' ') {
-                    validatedSurname += c;
+                    surname += c;
                     valid = true;
                 } else {
                     System.out.println(c + " is not a valid character for a surname ");
@@ -229,8 +231,6 @@ public class Menu {
 
             counter++;
         } while (!valid);
-
-        surname = validatedSurname;
 
         return surname;
     }
@@ -246,7 +246,7 @@ public class Menu {
         do {
             city = scan.nextLine();
 
-            if (!(city == null) || !(city.length() <= 2)) {
+            if (!(city == null) || !(city.length() <= 2) && (!isNumeric(city))) {
                 for (Locale locale : locales) {
                     if (!valid) {
                         if (city.equalsIgnoreCase(locale.getDisplayCountry())) {
@@ -288,9 +288,7 @@ public class Menu {
                 }
             }
 
-            if (valid) {
-                System.out.println("You have entered a valid country.");
-            } else {
+            if (!valid) {
                 System.out.println("You have not entered a valid country, please try again.");
             }
 
@@ -298,5 +296,17 @@ public class Menu {
 
         return country;
     }
+    public static boolean isNumeric(String cadena) {
 
+        boolean resultado;
+
+        try {
+            Integer.parseInt(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
 }
