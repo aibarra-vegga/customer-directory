@@ -85,12 +85,17 @@ public class Menu {
             String patro = "^(.+)@(.+)$";
             Pattern pattern = Pattern.compile(patro);
             Matcher matcher = pattern.matcher(email);
-            if (matcher.matches()) {
-                email = email;
-                valid = true;
+            if (!email.isBlank()) {
+                if (matcher.matches()) {
+                    email = email.replaceAll("\\s", "");
+                    valid = true;
+                } else {
+                    valid = false;
+                    System.out.println("You have not entered a valid email, please enter a valid one: ");
+                }
             } else {
+                System.out.println("The email has a whitespace, please try again: ");
                 valid = false;
-                System.out.println("You have not entered a valid email, please enter a valid one: ");
             }
 
         } while (!valid);
@@ -103,6 +108,7 @@ public class Menu {
         Scanner scan = new Scanner(System.in);
         String nif = "";
         boolean valid = false;
+        outer:
         do {
 
             System.out.println("Introduce your nif please: ");
@@ -112,14 +118,13 @@ public class Menu {
             if (nif.length() == 9) {
 
                 for (int i = 0; i <= 7; i++) {
-
                     numnif += nif.charAt(i);
+                    if (!Character.isDigit(nif.charAt(i))) {
 
-                    if ((Character.isDigit(numnif.charAt(i)))) {
-                        valid = true;
-                    } else {
                         valid = false;
-                        System.out.println("This nif is not correct, "+numnif.charAt(i)+ " is not a number ");
+                        System.out.println("This nif is not correct, " + nif.charAt(i) + " is not a number");
+                        continue outer;
+
                     }
                 }
 
@@ -169,18 +174,12 @@ public class Menu {
 
         Scanner scan = new Scanner(System.in);
         String name = "", validatedName = "";
-        boolean valid = true;
+        boolean valid = false;
         int counter = 0;
 
         System.out.println("Name: ");
 
         do {
-
-            if ((!valid) && (counter > 0)) {
-                System.out.println("That was an incorrect name, write a valid name: ");
-                validatedName = "";
-                name = "";
-            }
             validatedName = scan.nextLine();
 
             for (char c : validatedName.toCharArray()) {
@@ -189,11 +188,17 @@ public class Menu {
                     name += c;
                     valid = true;
                 } else {
-                    System.out.println(c + " is not a valid character for a surname ");
+                    System.out.println(c + " is not a valid character for a name ");
                     valid = false;
                 }
             }
 
+            if ((!valid) && (counter > 0) || name.isBlank()) {
+                System.out.println("That was an incorrect name, write a valid name: ");
+                validatedName = "";
+                name = "";
+                valid = false;
+            }
             counter++;
         } while (!valid);
 
@@ -205,18 +210,12 @@ public class Menu {
         Scanner scan = new Scanner(System.in);
         String validatedSurname = "";
         String surname = "";
-        boolean valid = true;
+        boolean valid = false;
         int counter = 0;
 
         System.out.println("Surname: ");
 
         do {
-
-            if ((!valid) && (counter > 0)) {
-                System.out.println("That was an incorrect surname, write a valid surname: ");
-                validatedSurname = "";
-                surname = "";
-            }
             String input = scan.nextLine();
 
             for (char c : input.toCharArray()) {
@@ -228,7 +227,12 @@ public class Menu {
                     valid = false;
                 }
             }
-
+            if ((!valid) && (counter > 0) || surname.isBlank()) {
+                System.out.println("That was an incorrect surname, write a valid surname: ");
+                validatedSurname = "";
+                surname = "";
+                valid = false;
+            }
             counter++;
         } while (!valid);
 
@@ -236,7 +240,6 @@ public class Menu {
     }
 
     public String city() {
-
         Scanner scan = new Scanner(System.in);
         boolean valid = false;
         System.out.println("City: ");
@@ -245,28 +248,40 @@ public class Menu {
 
         do {
             city = scan.nextLine();
+            String validatedCity = "";
 
-            if (!(city == null) || !(city.length() <= 2) && (!isNumeric(city))) {
-                for (Locale locale : locales) {
-                    if (!valid) {
-                        if (city.equalsIgnoreCase(locale.getDisplayCountry())) {
-                            valid = false;
-                            System.out.println("That's a country, try a city ");
-                        } else {
-                            valid = true;
+                if(city.isBlank()){
+                    System.out.println("You have entered an empty name of a city, please try again: ");
+                }else{
+                    for (Locale locale : locales) {
+                        if (!valid) {
+                            if (!city.equalsIgnoreCase(locale.getDisplayCountry())) {
+                                valid = true;
+                            }
                         }
                     }
+                    if (!valid){
+                        System.out.println("That's a country ");
+                    }
+                    for (char c : city.toCharArray()) {
+                        if (Character.isLetter(c)) {
+                            valid = true;
+                            validatedCity += c;
+                        } else {
+                            System.out.println(c + " is not a valid character for a city ");
+                            valid = false;
+                        }
+                        city = validatedCity;
+                    }
+                    if(!valid) {
+                        System.out.println("Please try again: ");
+                    }
                 }
-                valid = true;
-            } else {
-                System.out.println("You have not entered a city, please try again: ");
-                valid = false;
-            }
 
         } while (!valid);
-
         return city;
     }
+
 
     public String country() {
 
@@ -296,17 +311,14 @@ public class Menu {
 
         return country;
     }
-    public static boolean isNumeric(String cadena) {
 
-        boolean resultado;
+    public String NIFtoErase(){
 
-        try {
-            Integer.parseInt(cadena);
-            resultado = true;
-        } catch (NumberFormatException excepcion) {
-            resultado = false;
-        }
+        Scanner scan = new Scanner(System.in);
+        System.out.println("NIF of the customer you want to erase: ");
+        String NIF = nif();
 
-        return resultado;
+        return NIF;
     }
+
 }

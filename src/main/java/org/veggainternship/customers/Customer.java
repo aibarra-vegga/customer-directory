@@ -1,10 +1,4 @@
 package org.veggainternship.customers;
-
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Customer {
     private String nif;
     private String name;

@@ -20,54 +20,71 @@ public class CustomerDirectoryService implements CustomerDirectory {
     }
 
     @Override
-    public void delete(ArrayList<CustomerDirectoryService> customerDirectories) {
+    public void delete(Customer customer) {
 
+        String NIFtoErase = menu.NIFtoErase();
+
+        boolean customerFound = false;
+
+        outer:
+        for (customer : customerDirectory) {
+            if (!customerFound) {
+                if (customer.getNif().equalsIgnoreCase(NIFtoErase)) {
+                    System.out.println("CustomerDirectoryService with NIF " + NIFtoErase + " has been successfully removed from the database.");
+                    customerDirectory.remove(customer);
+                    break outer;
+
+                } else {
+                    System.out.println("CustomerDirectoryService with NIF " + NIFtoErase + " was not found in the database.");
+                }
+            }
+        }
     }
 
-    @Override
-    public void update(ArrayList<CustomerDirectoryService> customerDirectories) {
+        @Override
+        public void update (ArrayList < CustomerDirectoryService > customerDirectories) {
 
-    }
+        }
 
-    @Override
-    public void findByNIF(ArrayList<CustomerDirectoryService> customerDirectories) {
+        @Override
+        public void findByNIF (ArrayList < CustomerDirectoryService > customerDirectories) {
 
-    }
+        }
 
-    @Override
-    public void findByEmail(ArrayList<CustomerDirectoryService> customerDirectories) {
+        @Override
+        public void findByEmail (ArrayList < CustomerDirectoryService > customerDirectories) {
 
-    }
+        }
 
-    @Override
-    public void findByName(ArrayList<CustomerDirectoryService> customerDirectories) {
+        @Override
+        public void findByName (ArrayList < CustomerDirectoryService > customerDirectories) {
 
-    }
+        }
 
-    @Override
-    public void findBySurname(ArrayList<CustomerDirectoryService> customerDirectories) {
+        @Override
+        public void findBySurname (ArrayList < CustomerDirectoryService > customerDirectories) {
 
-    }
+        }
 
-    @Override
-    public void findByCity(ArrayList<CustomerDirectoryService> customerDirectories) {
+        @Override
+        public void findByCity (ArrayList < CustomerDirectoryService > customerDirectories) {
 
-    }
+        }
 
-    @Override
-    public void findByCountry(ArrayList<CustomerDirectoryService> customerDirectories) {
+        @Override
+        public void findByCountry (ArrayList < CustomerDirectoryService > customerDirectories) {
 
-    }
+        }
 
-    @Override
-    public void listAll(ArrayList<CustomerDirectoryService> customerDirectories) {
+        @Override
+        public void listAll (ArrayList < CustomerDirectoryService > customerDirectories) {
 
-    }
+        }
 
-    @Override
-    public boolean validateNoRepeated(ArrayList<CustomerDirectoryService> customerDirectories) {
-        return false;
-    }
+        @Override
+        public boolean validateNoRepeated (ArrayList < CustomerDirectoryService > customerDirectories) {
+            return false;
+        }
 /*
     public void delete(ArrayList<CustomerDirectoryService> customerDirectories) {
 
@@ -674,4 +691,4 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return Country;
     }
  */
-}
+    }
