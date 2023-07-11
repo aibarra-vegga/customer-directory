@@ -9,6 +9,16 @@ public class Customer {
 
     Menu menu = new Menu();
 
+    public Customer() {
+
+        this.nif = nif;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.city = city;
+        this.country = country;
+
+    }
     public Customer(String nif, String name, String surname, String email, String city, String country) {
 
         this.nif = nif;
@@ -48,9 +58,7 @@ public class Customer {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) {this.email = email; }
 
     public String getCity() {
         return city;

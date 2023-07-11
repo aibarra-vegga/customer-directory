@@ -43,7 +43,10 @@ public class Menu {
         System.out.println("7: Find user by Surname ");
         System.out.println("8: Find user by City ");
         System.out.println("9: Find user by Country ");
-        System.out.println("10: List all customerDirectories ");
+        System.out.println("10: List all customers ");
+        System.out.println("10: List all deleted ");
+        System.out.println("12: Test user ");
+        System.out.println("13: Test user ");
 
         outer:
         do {
@@ -52,15 +55,14 @@ public class Menu {
             if (scan.hasNextInt()) {
                 option = scan.nextInt();
 
-                if (option > 0 && option <= 10) {
-                    System.out.println("Successfully entered ");
+                if (option > 0 && option <= 13) {
                     entrar = true;
                 } else if (option == 0) {
                     System.out.println("Successfully exited ");
                     entrar = false;
                     break outer;
                 } else {
-                    System.out.println("Invalid option. Please enter a number between 0 and 8.");
+                    System.out.println("Invalid option. Please enter a number between 0 and 13.");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a valid integer number.");
@@ -111,7 +113,7 @@ public class Menu {
         outer:
         do {
 
-            System.out.println("Introduce your nif please: ");
+            System.out.println("NIF: ");
             nif = scan.nextLine();
             String numnif = "";
 
@@ -242,46 +244,54 @@ public class Menu {
     public String city() {
         Scanner scan = new Scanner(System.in);
         boolean valid = false;
+
         System.out.println("City: ");
         String city = "";
         Locale[] locales = Locale.getAvailableLocales();
 
         do {
+
+            boolean trobada = false;
             city = scan.nextLine();
             String validatedCity = "";
 
-                if(city.isBlank()){
-                    System.out.println("You have entered an empty name of a city, please try again: ");
-                }else{
-                    for (Locale locale : locales) {
-                        if (!valid) {
-                            if (!city.equalsIgnoreCase(locale.getDisplayCountry())) {
-                                valid = true;
-                            }
-                        }
+            if (city.isBlank()) {
+                System.out.println("You have entered an empty name of a city, please try again: ");
+            } else {
+                for (char c : city.toCharArray()) {
+                    if (Character.isLetter(c)) {
+                        valid = true;
+                        validatedCity += c;
+                    } else {
+                        System.out.println(c + " is not a valid character for a city ");
+                        valid = false;
                     }
-                    if (!valid){
-                        System.out.println("That's a country ");
-                    }
-                    for (char c : city.toCharArray()) {
-                        if (Character.isLetter(c)) {
-                            valid = true;
-                            validatedCity += c;
-                        } else {
-                            System.out.println(c + " is not a valid character for a city ");
+                    city = validatedCity;
+                }
+                for (Locale locale : locales) {
+
+                    if (!trobada) {
+                        if (city.equalsIgnoreCase(locale.getDisplayCountry())) {
                             valid = false;
+                            trobada = true;
+                        } else {
+                            valid = true;
+                            trobada = false;
                         }
-                        city = validatedCity;
-                    }
-                    if(!valid) {
-                        System.out.println("Please try again: ");
                     }
                 }
+                if (trobada) {
+                    System.out.println("That's a country ");
+                }
+                if (!valid) {
+                    System.out.println("Please try again: ");
+                }
+            }
 
         } while (!valid);
+
         return city;
     }
-
 
     public String country() {
 
@@ -312,13 +322,76 @@ public class Menu {
         return country;
     }
 
-    public String NIFtoErase(){
+    public String NIFtoErase() {
 
         Scanner scan = new Scanner(System.in);
         System.out.println("NIF of the customer you want to erase: ");
         String NIF = nif();
 
         return NIF;
+    }
+
+    public String NIFtoUpdate() {
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("NIF of the customer you want to update: ");
+        String NIF = nif();
+
+        return NIF;
+    }
+    public String NIFtoFind(){
+        System.out.println("NIF of the customer you want to find: ");
+        String NIFtoFind = nif();
+        return NIFtoFind;
+    }
+    public String emailToFind() {
+        System.out.println("Enter the customer's email you want to find: ");
+        String email = email();
+        return email;
+    }
+    public String nameToFind() {
+        System.out.println("Enter the customer's name you want to find: ");
+        String name = name();
+        return name;
+    }
+    public String surnameToFind() {
+        System.out.println("Enter the customer's surname you want to find: ");
+        String surname = surname();
+        return surname;
+    }
+    public String cityToFind() {
+        System.out.println("Enter the city of the customer you want to find: ");
+        String city = city();
+        return city;
+    }
+    public String countryToFind() {
+        System.out.println("Enter the country of the customer you want to find: ");
+        String country = country();
+        return country;
+    }
+    public Customer customerNewData() {
+
+        boolean valid = true;
+        Scanner scan = new Scanner(System.in);
+        Customer updatedCustomer = new Customer();
+
+            boolean customerFound = true;
+            do {
+
+                updatedCustomer.setNif(nif());
+                updatedCustomer.setEmail(email());
+                updatedCustomer.setName(name());
+                updatedCustomer.setSurname(surname());
+                updatedCustomer.setCity(city());
+                updatedCustomer.setCountry(country());
+
+//                if (validateNoRepeated(customerDirectories)) {
+//                    valid = true;
+//                }
+
+            } while (!valid);
+
+        return updatedCustomer;
     }
 
 }

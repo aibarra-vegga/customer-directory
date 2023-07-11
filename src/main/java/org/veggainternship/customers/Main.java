@@ -1,9 +1,5 @@
 package org.veggainternship.customers;
 
-//falta fer les probes unitaries
-// i fer que quedi millor quan tornes a demanar un dni o un gmail si ja existeixen i arreglar la part de que el gmail siguin unics al update
-//fer una clase de customer, 1 de directori i una de menu per interactuar amb l usuari i printar
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,56 +12,60 @@ public class Main {
         //entrar = menu.menuPrincipal(entrar);
         entrar = true;
         Integer option;
-
+        CustomerDirectoryService customerDirectory = new CustomerDirectoryService();
 
         do {
 
-            CustomerDirectoryService customerDirectory = new CustomerDirectoryService();
+            Customer customer = new Customer();
 
             if (entrar) {
                 option = menu.optionsMenu();
                 System.out.println("\n");
                 switch (option) {
                     case 1:
-                        CustomerDirectoryService directory = new CustomerDirectoryService();
-                        directory.create(new Customer(menu.nif(), menu.name(), menu.surname(), menu.email(), menu.city(), menu.country()));
+                        customerDirectory.create(new Customer(menu.nif(), menu.name(), menu.surname(), menu.email(), menu.city(), menu.country()));
                         break;
                     case 2:
-                        customerDirectory = new CustomerDirectoryService();
                         customerDirectory.update(customer);
                         break;
                     case 3:
-                        customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.delete(customerDirectories);
+                        customerDirectory.delete(customer);
                         break;
                     case 4:
-                        customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.findByNIF(customerDirectories);
+                        customerDirectory.findByNIF();
                         break;
                     case 5:
-                        customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.findByEmail(customerDirectories);
+                        customerDirectory.findByEmail();
                         break;
                     case 6:
-                        customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.findByName(customerDirectories);
+                        customerDirectory.findByName();
                         break;
                     case 7:
-                        customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.findBySurname(customerDirectories);
+                        customerDirectory.findBySurname();
                         break;
                     case 8:
-                        customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.findByCity(customerDirectories);
+                        customerDirectory.findByCity();
                         break;
                     case 9:
-                        customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.findByCountry(customerDirectories);
+                        customerDirectory.findByCountry();
                         break;
                     case 10:
-                        customerDirectory = new CustomerDirectoryService();
-                        customerDirectory.listAll(customerDirectories);
+                        System.out.println("Active: ");
+                        System.out.println();
+                        customerDirectory.listAll();
                         break;
+                    case 11:
+                        System.out.println("Deleted: ");
+                        System.out.println();
+                        customerDirectory.listAllDeleted();
+                        break;
+                    case 12:
+                        customerDirectory.create(new Customer("00000000t", "abdel", "fatah", "abdel13fatah@gmail.com", "mondongo", "senegal"));
+                        break;
+                    case 13:
+                        customerDirectory.create(new Customer("49535056w", "a", "e", "s@w", "es", "marruecos"));
+                        break;
+
                     default:
                         entrar = false;
                         break;
@@ -74,6 +74,6 @@ public class Main {
 
         } while (entrar);
 
-         */
+        System.gc();
     }
 }

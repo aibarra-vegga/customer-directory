@@ -1,6 +1,7 @@
 package org.veggainternship.customers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -10,81 +11,237 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
     Menu menu = new Menu();
     ArrayList<Customer> customerDirectory = new ArrayList<>();
+    ArrayList<Customer> deletedCustomersDirectory = new ArrayList<>();
 
     public Customer create(Customer customer) {
 
-        customerDirectory.add(customer);
-        System.out.println(customer.toString());
+        if((validateNifNoRepeated(customer.getNif()) == true) && (validateEmailNoRepeated(customer.getEmail()) == true)) {
+            customerDirectory.add(customer);
+            System.out.println(customer.toString());
+        }
 
         return customer;
     }
-
-    @Override
     public void delete(Customer customer) {
-
         String NIFtoErase = menu.NIFtoErase();
 
         boolean customerFound = false;
 
-        outer:
-        for (customer : customerDirectory) {
+        Iterator<Customer> iterator = customerDirectory.iterator();
+        while (iterator.hasNext()) {
+            Customer c = iterator.next();
             if (!customerFound) {
-                if (customer.getNif().equalsIgnoreCase(NIFtoErase)) {
-                    System.out.println("CustomerDirectoryService with NIF " + NIFtoErase + " has been successfully removed from the database.");
-                    customerDirectory.remove(customer);
-                    break outer;
-
-                } else {
-                    System.out.println("CustomerDirectoryService with NIF " + NIFtoErase + " was not found in the database.");
+                if (c.getNif().equalsIgnoreCase(NIFtoErase)) {
+                    System.out.println("Customer with NIF " + NIFtoErase + " has been successfully removed from the database.");
+                    deletedCustomersDirectory.add(c);
+                    iterator.remove();
+                    customerFound = true;
                 }
             }
         }
+        if (!customerFound) {
+            System.out.println("Customer with NIF " + NIFtoErase + " was not found in the database.");
+        }
+    }
+    public void update(Customer customer) {
+
+        String NIFtoUpdate = menu.NIFtoUpdate();
+
+        boolean customerFound = false;
+
+        Iterator<Customer> iterator = customerDirectory.iterator();
+        while (iterator.hasNext()) {
+            customer = iterator.next();
+            if (!customerFound) {
+                if (customer.getNif().equalsIgnoreCase(NIFtoUpdate)) {
+                    customerFound = true;
+                }
+            }
+        }
+        if (!customerFound) {
+            System.out.println("Customer with NIF " + NIFtoUpdate + " was not found in the database.");
+        } else {
+            deletedCustomersDirectory.add(customer);
+            customerDirectory.remove(customer);
+            customer = menu.customerNewData();
+            customerDirectory.add(customer);
+            System.out.println("Customer with NIF " + NIFtoUpdate + " has been successfully updated in the database.");
+        }
+    }
+    public void findByNIF() {
+
+        String NIF = menu.NIFtoFind();
+        boolean customerFound = false;
+        for (Customer customer : customerDirectory) {
+            if (customerFound == false) {
+                if (NIF.equalsIgnoreCase(customer.getNif())) {
+                    System.out.println("The customerDirectory with the NIF " + customer.getNif() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+        if (!customerFound) {
+            System.out.println("CustomerDirectoryService with NIF " + NIF + " was not found in the database.");
+        }
+    }
+    public void findByEmail() {
+
+        String email = menu.emailToFind();
+        boolean customerFound = false;
+        for (Customer customer : customerDirectory) {
+            if (customerFound == false) {
+                if (email.equalsIgnoreCase(customer.getEmail())) {
+                    System.out.println("The customerDirectory with the email " + customer.getEmail() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+        if (!customerFound) {
+            System.out.println("CustomerDirectoryService with email " + email + " was not found in the database.");
+        }
+    }
+    public void findByName() {
+
+        String name = menu.nameToFind();
+        boolean customerFound = false;
+        for (Customer customer : customerDirectory) {
+            if (customerFound == false) {
+                if (name.equalsIgnoreCase(customer.getName())) {
+                    System.out.println("The customerDirectory with the name " + customer.getName() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+        if (!customerFound) {
+            System.out.println("CustomerDirectoryService with name " + name + " was not found in the database.");
+        }
+    }
+    public void findBySurname() {
+
+        String surname = menu.surnameToFind();
+        boolean customerFound = false;
+        for (Customer customer : customerDirectory) {
+            if (customerFound == false) {
+                if (surname.equalsIgnoreCase(customer.getName())) {
+                    System.out.println("The customerDirectory with the surname " + customer.getSurname() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+        if (!customerFound) {
+            System.out.println("CustomerDirectoryService with surname " + surname + " was not found in the database.");
+        }
+    }
+    public void findByCity() {
+
+        String city = menu.cityToFind();
+        boolean customerFound = false;
+        for (Customer customer : customerDirectory) {
+            if (customerFound == false) {
+                if (city.equalsIgnoreCase(customer.getName())) {
+                    System.out.println("The customerDirectory with the city " + customer.getCity() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+        if (!customerFound) {
+            System.out.println("CustomerDirectoryService with city " + city + " was not found in the database.");
+        }
+    }
+    public void findByCountry() {
+
+        String country = menu.countryToFind();
+        boolean customerFound = false;
+        for (Customer customer : customerDirectory) {
+            if (customerFound == false) {
+                if (country.equalsIgnoreCase(customer.getCountry())) {
+                    System.out.println("The customerDirectory with the country " + customer.getCountry() + " information is: ");
+                    System.out.println(customer.toString());
+                    customerFound = true;
+                }
+            }
+        }
+        if (!customerFound) {
+            System.out.println("CustomerDirectoryService with country " + country + " was not found in the database.");
+        }
+    }
+    public String listAll() {
+
+        String list = "";
+        for (Customer customer : customerDirectory) {
+            System.out.println(customer.toString());
+            list += customer + "\n";
+        }
+
+        return list;
     }
 
-        @Override
-        public void update (ArrayList < CustomerDirectoryService > customerDirectories) {
+    public String listAllDeleted() {
 
+        String list = "";
+        for (Customer customer : deletedCustomersDirectory) {
+            System.out.println(customer.toString());
+            list += customer + "\n";
         }
 
-        @Override
-        public void findByNIF (ArrayList < CustomerDirectoryService > customerDirectories) {
-
+        return list;
+    }
+    public boolean validateNifNoRepeated(String nif) {
+        boolean valid = false;
+        boolean exists = false;
+        for (Customer customer : customerDirectory) {
+            if (customer.getNif().equals(nif) && exists == false) {
+                exists = true;
+                nif = customer.getNif();
+            }
+        }
+        if (exists) {
+            valid = false;
+            System.out.println("Customer with NIF " + nif + " already exists ");
+        }else{
+            valid = true;
         }
 
-        @Override
-        public void findByEmail (ArrayList < CustomerDirectoryService > customerDirectories) {
-
+        return valid;
+    }
+    public boolean validateEmailNoRepeated(String email) {
+        boolean valid = false;
+        boolean exists = false;
+        for (Customer customer : customerDirectory) {
+            if (customer.getEmail().equals(email) && exists == false) {
+                exists = true;
+                email = customer.getEmail();
+            }
+        }
+        if (exists) {
+            valid = false;
+            System.out.println("Customer with email " + email + " already exists ");
+        }else{
+            valid = true;
         }
 
-        @Override
-        public void findByName (ArrayList < CustomerDirectoryService > customerDirectories) {
-
-        }
-
-        @Override
-        public void findBySurname (ArrayList < CustomerDirectoryService > customerDirectories) {
-
-        }
-
-        @Override
-        public void findByCity (ArrayList < CustomerDirectoryService > customerDirectories) {
-
-        }
-
-        @Override
-        public void findByCountry (ArrayList < CustomerDirectoryService > customerDirectories) {
-
-        }
-
-        @Override
-        public void listAll (ArrayList < CustomerDirectoryService > customerDirectories) {
-
-        }
-
-        @Override
-        public boolean validateNoRepeated (ArrayList < CustomerDirectoryService > customerDirectories) {
-            return false;
-        }
+        return valid;
+    }
+//    public boolean validateEmailNoRepeated(){
+//        boolean valid = false;
+//        boolean isEmailRepeated = false;
+//        for (Customer customer : customerDirectory) {
+//            if (customerDirectory.getEmail().equals(customer.getEmail()) && isEmailRepeated == false) {
+//                isEmailRepeated = true;
+//            }
+//        }
+//        if (isEmailRepeated) {
+//            valid = false;
+//            isEmailRepeated = true;
+//            System.out.println("Customer with email " + this.Email + " already exists ");
+//        }
+//        return valid;
+//    }
 /*
     public void delete(ArrayList<CustomerDirectoryService> customerDirectories) {
 
@@ -691,4 +848,4 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return Country;
     }
  */
-    }
+}
