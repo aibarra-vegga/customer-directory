@@ -30,7 +30,7 @@ public class Main {
                         customerDirectory.update(customer);
                         break;
                     case 3:
-                        customerDirectory.delete(customerDirectory.findByNIF());
+                        customerDirectory.delete(customer);
                         break;
                     case 4:
                         System.out.println(customerDirectory.findByNIF());
@@ -64,6 +64,7 @@ public class Main {
                         break;
                     case 12:
                         customerDirectory.create(new Customer("00000000t", "abdel", "fatah", "abdel13fatah@gmail.com", "mondongo", "senegal"));
+                        customerDirectory.create(new Customer("12345678z", "cosmin", "mihai", "drthvader99@gmail.com", "mondongo", "arabia saudi"));
                         break;
                     case 13:
                         customerDirectory.create(new Customer("49535056w", "a", "e", "s@w", "es", "marruecos"));

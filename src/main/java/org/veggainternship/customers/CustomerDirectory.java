@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface CustomerDirectory {
     public Customer create(Customer customer);
-    public void delete(ArrayList<Customer> customerDirectory);
+    public void delete(Customer customer);
     public void update(Customer customer);
     public ArrayList<Customer> findByNIF();
     public ArrayList<Customer> findByEmail();

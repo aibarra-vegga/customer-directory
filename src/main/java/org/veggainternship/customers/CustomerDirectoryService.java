@@ -20,16 +20,16 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return customer;
     }
 
-    public void delete(ArrayList<Customer> customerDirectory) {
+    public void delete(Customer customer) {
 
         String NIFtoErase = menu.NIFtoErase();
         boolean customerFound = false;
 
-        for (Customer customer : customerDirectory) {
-            if (customer.getNif().equalsIgnoreCase(NIFtoErase)) {
+        for (Customer c : customerDirectory) {
+            if (c.getNif().equalsIgnoreCase(NIFtoErase)) {
                 System.out.println("Customer with NIF " + NIFtoErase + " has been successfully removed from the database.");
-                deletedCustomersDirectory.add(customer);
-                customerDirectory.remove(customer);
+                deletedCustomersDirectory.add(c);
+                customerDirectory.remove(c);
                 customerFound = true;
             }
         }
@@ -41,16 +41,21 @@ public class CustomerDirectoryService implements CustomerDirectory {
     public void update(Customer customer) {
 
         boolean valid = false;
+        Customer oldCustomer = null;
+        boolean customerFound = false;
+
         do {
+
             String NIFtoUpdate = menu.NIFtoUpdate();
             Customer updatedCustomer = null;
-            boolean customerFound = false;
 
             for (Customer c : customerDirectory) {
                 if (!customerFound) {
                     if (c.getNif().equalsIgnoreCase(NIFtoUpdate)) {
                         customerFound = true;
                         updatedCustomer = c;
+                        customer = c;
+                        deletedCustomersDirectory.add(c);
                     }
                 }
             }
@@ -61,13 +66,12 @@ public class CustomerDirectoryService implements CustomerDirectory {
                 String newNIF = menu.nif();
 
                 if (newNIF.equalsIgnoreCase(updatedCustomer.getNif()) || validateNifNoRepeated(newNIF)) {
-                    updatedCustomer.setNif(newNIF);
 
+                    updatedCustomer.setNif(newNIF);
                     String newEmail = menu.email();
 
                     if (newEmail.equalsIgnoreCase(updatedCustomer.getEmail()) || validateEmailNoRepeated(newEmail)) {
 
-                        deletedCustomersDirectory.add(customer);
                         updatedCustomer.setEmail(newEmail);
                         updatedCustomer.setName(menu.name());
                         updatedCustomer.setSurname(menu.surname());
@@ -76,7 +80,6 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
                         customerDirectory.remove(customer);
 
-                        customerDirectory.add(updatedCustomer);
                         System.out.println("Customer with NIF " + NIFtoUpdate + " has been successfully updated in the database.");
                         valid = true;
                     } else {
