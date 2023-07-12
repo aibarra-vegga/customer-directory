@@ -44,12 +44,13 @@ public class Menu {
         System.out.println("8: Find user by City ");
         System.out.println("9: Find user by Country ");
         System.out.println("10: List all customers ");
-        System.out.println("10: List all deleted ");
+        System.out.println("11: List all deleted ");
         System.out.println("12: Test user ");
         System.out.println("13: Test user ");
 
         outer:
         do {
+
             System.out.println("Enter an option: ");
 
             if (scan.hasNextInt()) {
@@ -157,8 +158,9 @@ public class Menu {
                     DNI += lletresMin[modDNI];
                 }
                 if (lletraDNI == DNI.charAt(0)) {
-                    valid = true;
                     nif = numnif + DNI;
+                    valid = true;
+
                 } else {
                     System.out.println("This nif is not well calculated, please try another nif: ");
                     valid = false;
@@ -170,8 +172,8 @@ public class Menu {
         } while (!valid);
 
         return nif;
-    }
 
+    }
     public String name() {
 
         Scanner scan = new Scanner(System.in);
@@ -339,59 +341,36 @@ public class Menu {
 
         return NIF;
     }
-    public String NIFtoFind(){
-        System.out.println("NIF of the customer you want to find: ");
+
+    public String NIFtoFind() {
         String NIFtoFind = nif();
         return NIFtoFind;
     }
+
     public String emailToFind() {
-        System.out.println("Enter the customer's email you want to find: ");
         String email = email();
         return email;
     }
+
     public String nameToFind() {
-        System.out.println("Enter the customer's name you want to find: ");
         String name = name();
         return name;
     }
+
     public String surnameToFind() {
-        System.out.println("Enter the customer's surname you want to find: ");
         String surname = surname();
         return surname;
     }
+
     public String cityToFind() {
-        System.out.println("Enter the city of the customer you want to find: ");
         String city = city();
         return city;
     }
+
     public String countryToFind() {
         System.out.println("Enter the country of the customer you want to find: ");
         String country = country();
         return country;
-    }
-    public Customer customerNewData() {
-
-        boolean valid = true;
-        Scanner scan = new Scanner(System.in);
-        Customer updatedCustomer = new Customer();
-
-            boolean customerFound = true;
-            do {
-
-                updatedCustomer.setNif(nif());
-                updatedCustomer.setEmail(email());
-                updatedCustomer.setName(name());
-                updatedCustomer.setSurname(surname());
-                updatedCustomer.setCity(city());
-                updatedCustomer.setCountry(country());
-
-//                if (validateNoRepeated(customerDirectories)) {
-//                    valid = true;
-//                }
-
-            } while (!valid);
-
-        return updatedCustomer;
     }
 
 }

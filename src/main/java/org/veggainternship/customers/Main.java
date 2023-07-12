@@ -12,6 +12,7 @@ public class Main {
         //entrar = menu.menuPrincipal(entrar);
         entrar = true;
         Integer option;
+
         CustomerDirectoryService customerDirectory = new CustomerDirectoryService();
 
         do {
@@ -29,7 +30,7 @@ public class Main {
                         customerDirectory.update(customer);
                         break;
                     case 3:
-                        customerDirectory.delete(customer);
+                        customerDirectory.delete(customerDirectory.findByNIF());
                         break;
                     case 4:
                         customerDirectory.findByNIF();
@@ -53,11 +54,13 @@ public class Main {
                         System.out.println("Active: ");
                         System.out.println();
                         customerDirectory.listAll();
+                        System.out.println();
                         break;
                     case 11:
                         System.out.println("Deleted: ");
                         System.out.println();
                         customerDirectory.listAllDeleted();
+                        System.out.println();
                         break;
                     case 12:
                         customerDirectory.create(new Customer("00000000t", "abdel", "fatah", "abdel13fatah@gmail.com", "mondongo", "senegal"));
@@ -65,7 +68,6 @@ public class Main {
                     case 13:
                         customerDirectory.create(new Customer("49535056w", "a", "e", "s@w", "es", "marruecos"));
                         break;
-
                     default:
                         entrar = false;
                         break;
