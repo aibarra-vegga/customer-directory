@@ -33,22 +33,22 @@ public class Main {
                         customerDirectory.delete(customerDirectory.findByNIF());
                         break;
                     case 4:
-                        customerDirectory.findByNIF();
+                        System.out.println(customerDirectory.findByNIF());
                         break;
                     case 5:
-                        customerDirectory.findByEmail();
+                        System.out.println(customerDirectory.findByEmail());
                         break;
                     case 6:
-                        customerDirectory.findByName();
+                        System.out.println(customerDirectory.findByName());
                         break;
                     case 7:
-                        customerDirectory.findBySurname();
+                        System.out.println(customerDirectory.findBySurname());
                         break;
                     case 8:
-                        customerDirectory.findByCity();
+                        System.out.println(customerDirectory.findByCity());
                         break;
                     case 9:
-                        customerDirectory.findByCountry();
+                        System.out.println(customerDirectory.findByCountry());
                         break;
                     case 10:
                         System.out.println("Active: ");
@@ -67,6 +67,7 @@ public class Main {
                         break;
                     case 13:
                         customerDirectory.create(new Customer("49535056w", "a", "e", "s@w", "es", "marruecos"));
+                        customerDirectory.create(new Customer("81816780F", "ae", "ae", "s@ww", "esw", "marruecos"));
                         break;
                     default:
                         entrar = false;

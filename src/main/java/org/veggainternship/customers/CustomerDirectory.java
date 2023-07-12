@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public interface CustomerDirectory {
     public Customer create(Customer customer);
-    public void delete(Customer customer);
+    public void delete(ArrayList<Customer> customerDirectory);
     public void update(Customer customer);
-    public Customer findByNIF();
-    public Customer findByEmail();
-    public Customer findByName();
-    public Customer findBySurname();
-    public Customer findByCity();
-    public Customer findByCountry();
+    public ArrayList<Customer> findByNIF();
+    public ArrayList<Customer> findByEmail();
+    public ArrayList<Customer> findByName();
+    public ArrayList<Customer> findBySurname();
+    public ArrayList<Customer> findByCity();
+    public ArrayList<Customer> findByCountry();
     public String listAll();
     public String listAllDeleted();
     public boolean validateNifNoRepeated(String nif);
