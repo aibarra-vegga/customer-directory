@@ -1,4 +1,7 @@
 package org.veggainternship.customers;
+
+import java.util.Objects;
+
 public class Customer {
     private String nif;
     private String name;
@@ -86,5 +89,17 @@ public class Customer {
                 ", city='" + city + '\'' +
                 ", country='" + country + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer customer)) return false;
+        return Objects.equals(getNif(), customer.getNif()) && Objects.equals(getName(), customer.getName()) && Objects.equals(getSurname(), customer.getSurname()) && Objects.equals(getEmail(), customer.getEmail()) && Objects.equals(getCity(), customer.getCity()) && Objects.equals(getCountry(), customer.getCountry());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNif(), getName(), getSurname(), getEmail(), getCity(), getCountry());
     }
 }
