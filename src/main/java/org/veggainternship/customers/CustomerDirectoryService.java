@@ -284,22 +284,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return valid;
     }
 
-//    public boolean validateEmailNoRepeated(){
-//        boolean valid = false;
-//        boolean isEmailRepeated = false;
-//        for (Customer customer : customerDirectory) {
-//            if (customerDirectory.getEmail().equals(customer.getEmail()) && isEmailRepeated == false) {
-//                isEmailRepeated = true;
-//            }
-//        }
-//        if (isEmailRepeated) {
-//            valid = false;
-//            isEmailRepeated = true;
-//            System.out.println("Customer with email " + this.Email + " already exists ");
-//        }
-//        return valid;
-//    }
-/*
+
     public void delete(ArrayList<CustomerDirectoryService> customerDirectories) {
 
         System.out.println("NIF of the customer you want to erase from the database: ");
@@ -904,5 +889,4 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
         return Country;
     }
- */
 }
