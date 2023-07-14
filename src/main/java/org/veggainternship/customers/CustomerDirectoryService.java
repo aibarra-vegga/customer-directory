@@ -12,7 +12,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
     public Customer create(Customer customer) {
 
-        if ((validateNifNoRepeated(customer.getNif()) == true) && (validateEmailNoRepeated(customer.getEmail()) == true)) {
+        if ((validateNifNoRepeated(customer.getNif()) == true)) {
             customerDirectory.add(customer);
             System.out.println(customer.toString());
         }
@@ -26,24 +26,26 @@ public class CustomerDirectoryService implements CustomerDirectory {
         boolean customerFound = false;
 
         for (Customer c : customerDirectory) {
-            if (c.getNif().equalsIgnoreCase(NIFtoErase)||c.getNif().equalsIgnoreCase(NIFtoErase)) {
-                System.out.println("Customer with NIF " + NIFtoErase + " has been successfully removed from the database.");
-                deletedCustomersDirectory.add(c);
-                customerDirectory.remove(c);
-                customerFound = true;
+            if(!customerFound) {
+                if (c.getNif().equalsIgnoreCase(NIFtoErase) || c.getNif().equalsIgnoreCase("00000000t")){
+                    System.out.println("Customer with NIF " + NIFtoErase + " has been successfully removed from the database.");
+                    deletedCustomersDirectory.add(c);
+                    customerDirectory.remove(c);
+                    customerFound = true;
+                }
             }
         }
         if (!customerFound) {
             System.out.println("Customer with NIF " + NIFtoErase + " was not found in the database.");
         }
     }
-
     public void update(Customer customer) {
 
         boolean valid = false;
         Customer oldCustomer = null;
         boolean customerFound = false;
-
+        Customer noBugCustomer = new Customer();
+        deletedCustomersDirectory.add(noBugCustomer);
         do {
 
             String NIFtoUpdate = menu.NIFtoUpdate();
@@ -78,8 +80,6 @@ public class CustomerDirectoryService implements CustomerDirectory {
                         updatedCustomer.setCity(menu.city());
                         updatedCustomer.setCountry(menu.country());
 
-                        customerDirectory.remove(customer);
-
                         System.out.println("Customer with NIF " + NIFtoUpdate + " has been successfully updated in the database.");
                         valid = true;
                     } else {
@@ -89,6 +89,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
                     System.out.println("That NIF already exists.");
                 }
             }
+            deletedCustomersDirectory.remove(noBugCustomer);
         } while (!valid);
     }
     public String listAll() {
@@ -177,8 +178,9 @@ public class CustomerDirectoryService implements CustomerDirectory {
     public ArrayList<Customer> findByNIF() {
 
         ArrayList<Customer> list = new ArrayList<>();
-        String NIF = "00000000t";//menu.NIFtoFind();
+        String NIF = menu.NIFtoFind();
         boolean customerFound = false;
+
         for (Customer customer : customerDirectory) {
             if (NIF.equalsIgnoreCase(customer.getNif())) {
                 customerFound = true;

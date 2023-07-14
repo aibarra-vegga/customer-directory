@@ -105,7 +105,6 @@ public class Menu {
 
         return email;
     }
-
     public String nif() {
 
         Scanner scan = new Scanner(System.in);
