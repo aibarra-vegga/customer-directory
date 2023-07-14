@@ -9,9 +9,7 @@ public class Customer {
     private String email;
     private String city;
     private String country;
-
     Menu menu = new Menu();
-
     public Customer() {
 
         this.nif = nif;

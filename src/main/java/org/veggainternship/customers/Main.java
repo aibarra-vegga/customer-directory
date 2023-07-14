@@ -1,16 +1,13 @@
 package org.veggainternship.customers;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 //treure el menu i donar els parametres ja fets a la part de validacio, fer les classes com estan a la interficie customerDirectory, treure el deletedCustomerDirectory,
 //les validacions de dades han d anar al create, fer que el listAll torni una llista, tambe pot imprimir els customers,
-// arreglar els bugs de update i delete i millorar el sistema de validacio de repetits,
+//arreglar els bugs de update i delete i millorar el sistema de validacio de repetits, fer que el NIF sigui unic i no es pugui cambiar,
+//a les probes unitaries fer que cada test tngui totes les dades que necessita per a ser executat, es poden fer variors asserts i probar varios metodes al mateis  @test.
 
 public class Main {
     public static void main(String[] args) {
 
-        Scanner scan = new Scanner(System.in);
         Menu menu = new Menu();
         boolean entrar = false;
         entrar = true;
@@ -36,22 +33,22 @@ public class Main {
                         customerDirectory.delete(customer);
                         break;
                     case 4:
-                        System.out.println(customerDirectory.findByNIF());
+                        System.out.println(customerDirectory.findByNIF("49535056w"));
                         break;
                     case 5:
-                        System.out.println(customerDirectory.findByEmail());
+                        System.out.println(customerDirectory.findByEmail("s@w"));
                         break;
                     case 6:
-                        System.out.println(customerDirectory.findByName());
+                        System.out.println(customerDirectory.findByName("Cosmin"));
                         break;
                     case 7:
-                        System.out.println(customerDirectory.findBySurname());
+                        System.out.println(customerDirectory.findBySurname("Mihai"));
                         break;
                     case 8:
-                        System.out.println(customerDirectory.findByCity());
+                        System.out.println(customerDirectory.findByCity("Mondongo"));
                         break;
                     case 9:
-                        System.out.println(customerDirectory.findByCountry());
+                        System.out.println(customerDirectory.findByCountry("España"));
                         break;
                     case 10:
                         System.out.println("Active: ");

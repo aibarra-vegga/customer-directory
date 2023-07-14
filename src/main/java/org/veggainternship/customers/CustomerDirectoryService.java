@@ -1,16 +1,14 @@
 package org.veggainternship.customers;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class CustomerDirectoryService implements CustomerDirectory {
 
     Menu menu = new Menu();
     ArrayList<Customer> customerDirectory = new ArrayList<>();
-    ArrayList<Customer> deletedCustomersDirectory = new ArrayList<>();
 
     public Customer create(Customer customer) {
+
+        //les validacions de les dades del menu van aqui
 
         if ((validateNifNoRepeated(customer.getNif()) == true)) {
             customerDirectory.add(customer);
@@ -29,7 +27,6 @@ public class CustomerDirectoryService implements CustomerDirectory {
             if(!customerFound) {
                 if (c.getNif().equalsIgnoreCase(NIFtoErase)){
                     System.out.println("Customer with NIF " + NIFtoErase + " has been successfully removed from the database.");
-                    deletedCustomersDirectory.add(c);
                     customerDirectory.remove(c);
                     customerFound = true;
                 }
@@ -42,10 +39,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
     public void update(Customer customer) {
 
         boolean valid = false;
-        Customer oldCustomer = null;
         boolean customerFound = false;
-        Customer noBugCustomer = new Customer();
-        deletedCustomersDirectory.add(noBugCustomer);
         do {
 
             String NIFtoUpdate = menu.NIFtoUpdate();
@@ -57,7 +51,6 @@ public class CustomerDirectoryService implements CustomerDirectory {
                         customerFound = true;
                         updatedCustomer = c;
                         customer = c;
-                        deletedCustomersDirectory.add(c);
                     }
                 }
             }
@@ -89,7 +82,6 @@ public class CustomerDirectoryService implements CustomerDirectory {
                     System.out.println("That NIF already exists.");
                 }
             }
-            deletedCustomersDirectory.remove(noBugCustomer);
         } while (!valid);
     }
     public String listAll() {
@@ -162,10 +154,10 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return valid;
     }
 
-    public ArrayList<Customer> findByNIF(String nif) {
+    public Optional<Customer> findByNIF(String nif) {
 
         ArrayList<Customer> list = new ArrayList<>();
-        String NIF = menu.NIFtoFind();
+        String NIF = "12345678z";
         boolean customerFound = false;
 
         for (Customer customer : customerDirectory) {
@@ -177,7 +169,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return list;
     }
 
-    public ArrayList<Customer> findByEmail(String email) {
+    public Optional<Customer> findByEmail(String email) {
 
         ArrayList<Customer> list = new ArrayList<>();
         String email = menu.emailToFind();
