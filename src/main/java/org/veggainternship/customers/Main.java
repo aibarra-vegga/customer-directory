@@ -3,13 +3,16 @@ package org.veggainternship.customers;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//treure el menu i donar els parametres ja fets a la part de validacio, fer les classes com estan a la interficie customerDirectory, treure el deletedCustomerDirectory,
+//les validacions de dades han d anar al create, fer que el listAll torni una llista, tambe pot imprimir els customers,
+// arreglar els bugs de update i delete i millorar el sistema de validacio de repetits,
+
 public class Main {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
         Menu menu = new Menu();
         boolean entrar = false;
-        //entrar = menu.menuPrincipal(entrar);
         entrar = true;
         Integer option;
 
