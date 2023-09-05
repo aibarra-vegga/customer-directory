@@ -12,17 +12,20 @@ public class CustomerDirectoryService implements CustomerDirectory {
     public void create(Customer customer) {
 
         //Nif
+        String nif = "49535056w";
+        customer.setNif(nif);
 
-        String Nif = "49535056p";
-        customer.setNif(Nif);
-
-        if (!validateNif(Nif)) {
-            System.out.println(Nif + " is not valid, this should be your Nif: 49535056W ");
+        if (!validateNif(nif)) {
+            System.out.println(nif + " is not valid, this should be your Nif: 49535056W ");
             customer.setNif("49535056W");
         }
 
+        if (!validateNifNoRepeated(customer.getNif())){
+            System.out.println("Customer with NIF " + nif + " already exists");
+        }
+
         //Email
-        String Email = "abel13ibarra#gmail.com";
+        String Email = "abel13ibarra@gmail.com";
         customer.setEmail(Email);
 
         if (!validateEmail(Email)) {
@@ -31,49 +34,51 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
 
         //Name & Surname
-        String name = "Ab44el", surname = "Ibar33ra";
+        String name = "Abel", surname = "Ibarra";
         customer.setName(name);
         customer.setSurname(surname);
 
-        if ((!validateName(name))){
+        if ((!validateName(name))) {
             System.out.println("Ab44el is not valid, this should be your name without numbers: Abel");
             customer.setName("Abel");
         }
-        if(!validateSurname(surname)){
+        if (!validateSurname(surname)) {
             System.out.println("Ibar33ra is not valid, this should be your surname without numbers: Ibarra");
             customer.setSurname("Ibarra");
         }
 
         //City
-        String city = "Llei44da";
+        String city = "Lleida";
         customer.setCity(city);
 
-        if (!validateCity(city)){
+        if (!validateCity(city)) {
             System.out.println(city + "is not a valid city name, it should be Lleida");
             customer.setCity("Lleida");
         }
 
         //Country
-        String country = "Marrueco00s";
+        String country = "Marruecos";
 
-        if (!validateCountry(country)){
+        if (!validateCountry(country)) {
             System.out.println(country + "is not a valid city name, it should be Marruecos");
             customer.setCountry("Marruecos");
         }
 
         customerDirectory.add(customer);
     }
+
     public void delete(Customer customer) {
 
         String NIFtoErase = "49535056w";
         boolean customerFound = false;
 
         for (Customer c : customerDirectory) {
-            if(!customerFound) {
-                if (c.getNif().equalsIgnoreCase(NIFtoErase)){
+            if (!customerFound) {
+                if (c.getNif().equalsIgnoreCase(NIFtoErase)) {
                     System.out.println("Customer with NIF " + NIFtoErase + " has been successfully removed from the database.");
                     customerDirectory.remove(c);
                     customerFound = true;
+                    break; // intentar arreglar sense el break
                 }
             }
         }
@@ -81,14 +86,16 @@ public class CustomerDirectoryService implements CustomerDirectory {
             System.out.println("Customer with NIF " + NIFtoErase + " was not found in the database.");
         }
     }
+
     public void update(Customer customer) {
 
         boolean valid = false;
         boolean customerFound = false;
+
         do {
 
-            String NIFtoUpdate = menu.NIFtoUpdate();
-            Customer updatedCustomer = null;
+            String NIFtoUpdate = "49535056w";//menu.NIFtoUpdate(); el dni de la persona a la que vols fer el update
+            Customer updatedCustomer = new Customer();
 
             for (Customer c : customerDirectory) {
                 if (!customerFound) {
@@ -98,25 +105,26 @@ public class CustomerDirectoryService implements CustomerDirectory {
                         customer = c;
                     }
                 }
-            }
+            } // trobe el customer i fa que el updatedCustomer tingui els valors del customer a actualitzar
 
-            if (!customerFound) {
+            if (!customerFound) { // si no s ha trobat cap customer amb el nif especificat
                 System.out.println("Customer with NIF " + NIFtoUpdate + " was not found in the database.");
-            } else {
-                String newNIF = menu.nif();
+            } else { // si s ha trobat un client amb el nif especificat
 
-                if (newNIF.equalsIgnoreCase(updatedCustomer.getNif()) || validateNifNoRepeated(newNIF)) {
+                String newNIF = "00000000t";//menu.nif(); // nou nif
+
+                if (!newNIF.equalsIgnoreCase(updatedCustomer.getNif()) || validateNifNoRepeated(newNIF)) { // no entre al bucle infinit per la validacio del nif
 
                     updatedCustomer.setNif(newNIF);
-                    String newEmail = menu.email();
+                    String newEmail = "a@a";
 
                     if (newEmail.equalsIgnoreCase(updatedCustomer.getEmail()) || validateEmailNoRepeated(newEmail)) {
 
                         updatedCustomer.setEmail(newEmail);
-                        updatedCustomer.setName(menu.name());
-                        updatedCustomer.setSurname(menu.surname());
-                        updatedCustomer.setCity(menu.city());
-                        updatedCustomer.setCountry(menu.country());
+                        updatedCustomer.setName("wwwww");
+                        updatedCustomer.setSurname("rrrrrr");
+                        updatedCustomer.setCity("ddsd");
+                        updatedCustomer.setCountry("España");
 
                         System.out.println("Customer with NIF " + NIFtoUpdate + " has been successfully updated in the database.");
                         valid = true;
@@ -124,15 +132,16 @@ public class CustomerDirectoryService implements CustomerDirectory {
                         System.out.println("That email already exists.");
                     }
                 } else {
-                    System.out.println("That NIF already exists.");
+                    System.out.println("That NIF already exists.");// Falle aqui
                 }
             }
         } while (!valid);
     }
+
     public ArrayList<Customer> listAll() {
 
         ArrayList<Customer> list = customerDirectory;
-        for(Customer c : list){
+        for (Customer c : list) {
             System.out.println(c.toString());
             System.out.println("-----------------------------------------------------------------------------------------");
         }
@@ -140,19 +149,20 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return list;
 
     }
+
     public boolean validateNifNoRepeated(String nif) {
+
         boolean valid = true;
         boolean exists = false;
-        String originalNif = "";
         boolean original = false;
 
+        String originalNif = "";
+        nif = "49535056w";
+
         for (Customer customer : customerDirectory) {
+
             if (!original) {
                 originalNif = customer.getNif();
-                original = true;
-            }
-
-            if (originalNif.equalsIgnoreCase(customer.getNif())) {
                 original = true;
             }
 
@@ -164,11 +174,11 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
         if (exists) {
             valid = false;
-            System.out.println("Customer with NIF " + nif + " already exists");
         }
 
         return valid;
     }
+
     public boolean validateEmailNoRepeated(String email) {
         boolean valid = true;
         boolean exists = false;
@@ -198,7 +208,10 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
         return valid;
     }
+
     public Optional<Customer> findByNif(String nif) {
+
+        nif = "49535056w";
 
         Customer c = new Customer();
         boolean customerFound = false;
@@ -209,13 +222,15 @@ public class CustomerDirectoryService implements CustomerDirectory {
                 c = customer;
             }
         }
-        if (!customerFound){
+        if (!customerFound) {
             System.out.println("Customer with nif " + nif + " was not found in the database.");
         }
         return Optional.of(c);
     }
+
     public Optional<Customer> findByEmail(String email) {
 
+        email = "abel13ibarra@gmail.com";
         Customer c = new Customer();
         boolean customerFound = false;
 
@@ -230,6 +245,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
         return Optional.of(c);
     }
+
     public ArrayList<Customer> findByName(String name) {
 
         ArrayList<Customer> list = new ArrayList<>();
@@ -247,6 +263,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
         return list;
     }
+
     public ArrayList<Customer> findBySurname(String surname) {
 
         ArrayList<Customer> list = new ArrayList<>();
@@ -264,6 +281,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
         return list;
     }
+
     public ArrayList<Customer> findByCity(String city) {
 
         ArrayList<Customer> list = new ArrayList<>();
@@ -281,6 +299,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
         return list;
     }
+
     public ArrayList<Customer> findByCountry(String country) {
 
         ArrayList<Customer> list = new ArrayList<>();
@@ -298,7 +317,8 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
         return list;
     }
-    public boolean validateNif(String Nif){
+
+    public boolean validateNif(String Nif) {
 
         boolean valid = false;
         outer:
@@ -363,6 +383,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return valid;
 
     }
+
     public boolean validateEmail(String email) {
 
         boolean valid = true;
@@ -388,7 +409,8 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
         return valid;
     }
-    public boolean validateName(String name){
+
+    public boolean validateName(String name) {
 
         boolean valid = false;
         int counter = 0;
@@ -414,7 +436,8 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
         return valid;
     }
-    public boolean validateSurname(String surname){
+
+    public boolean validateSurname(String surname) {
 
         boolean valid = false;
         int counter = 0;
@@ -440,7 +463,8 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
         return valid;
     }
-    public boolean validateCity(String city){
+
+    public boolean validateCity(String city) {
 
         Scanner scan = new Scanner(System.in);
         boolean valid = false;
@@ -487,7 +511,8 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
         return valid;
     }
-    public boolean validateCountry(String country){
+
+    public boolean validateCountry(String country) {
 
         boolean valid = false;
         Locale[] locales = Locale.getAvailableLocales();

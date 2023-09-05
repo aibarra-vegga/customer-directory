@@ -37,7 +37,7 @@ public class Menu {
         System.out.println("1: Create user ");
         System.out.println("2: Update user ");
         System.out.println("3: Delete user ");
-        System.out.println("4: Find user by ID ");
+        System.out.println("4: Find user by Nif ");
         System.out.println("5: Find user by Email ");
         System.out.println("6: Find user by Name ");
         System.out.println("7: Find user by Surname ");
