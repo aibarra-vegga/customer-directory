@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomerDirectory {
-    void create(Customer c);// throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException;
+    void create(Customer customer);// throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException;
 
-    Optional<Customer> findById(String id);
+    Optional<Customer> findByNif(String nif);
 
     Optional<Customer> findByEmail(String email);
 
@@ -23,9 +23,7 @@ public interface CustomerDirectory {
 
     void update(Customer c);// throws CustomerNotFoundException, InvalidEmailException, MandatoryFieldNotProvidedException;
 
-    public String listAll();
-
-    public String listAllDeleted();
+    public ArrayList<Customer> listAll();
 
     public boolean validateNifNoRepeated(String nif);
 
