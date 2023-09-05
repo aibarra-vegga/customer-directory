@@ -79,6 +79,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         }
         if (!customerFound) {
             System.out.println("Customer with NIF " + NIFtoErase + " was not found in the database.");
+
         }
     }
     public void update(Customer customer) {
