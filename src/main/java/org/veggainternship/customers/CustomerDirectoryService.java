@@ -9,7 +9,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
     Menu menu = new Menu();
     ArrayList<Customer> customerDirectory = new ArrayList<>();
 
-    public void create(Customer customer) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException {
+    public void create(Customer customer) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException {
 
         //Nif
         String nif = "49535056w";
@@ -18,6 +18,9 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
             if((customer.getNif() == null)){
                 throw new MandatoryFieldNotProvidedException("The nif is missing");
+            }
+            if(!validateNif(customer.getNif())){
+                throw new InvalidNifException("The nif "+ customer.getNif() + " is not valid");
             }
 
             //Email
@@ -335,7 +338,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return list;
     }
 
-    public boolean validateNif(String Nif) {
+    public boolean validateNif(String Nif) throws InvalidNifException {
 
         boolean valid = false;
         outer:
@@ -388,8 +391,8 @@ public class CustomerDirectoryService implements CustomerDirectory {
                     valid = true;
 
                 } else {
-                    System.out.println("This nif is not well calculated, please try another nif: ");
                     valid = false;
+                    throw new InvalidNifException("This nif is not well calculated");
                 }
 
             } else {
@@ -401,7 +404,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
     }
 
-    public boolean validateEmail(String email) {
+    public boolean validateEmail(String email) throws InvalidEmailException {
 
         boolean valid = true;
         do {
@@ -422,6 +425,10 @@ public class CustomerDirectoryService implements CustomerDirectory {
                 System.out.println("The email entered had a whitespace, so it has ben set to the default: a@222sssdsdsdddssdd ");
                 email = "a@222sssdsdsdddssdd";
                 valid = false;
+            }
+
+            if (!valid){
+                throw new InvalidEmailException("The email: "+ email + " is not valid");
             }
 
         } while (!valid);

@@ -6,7 +6,7 @@ package org.veggainternship.customers;
 //a les probes unitaries fer que cada test tingui totes les dades que necessita per a ser executat, es poden fer variors asserts i probar varios metodes al mateis  @test.
 
 public class Main {
-    public static void main(String[] args) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException {
+    public static void main(String[] args) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException {
 
         Menu menu = new Menu();
         boolean entrar = false;
