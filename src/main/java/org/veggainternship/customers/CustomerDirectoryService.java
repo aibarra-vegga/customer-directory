@@ -13,58 +13,62 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
         //Nif
         String nif = "49535056w";
-        customer.setNif(nif);
+        if(validateNifNoRepeated(nif)){
+            customer.setNif(nif);
 
-        if (!validateNif(nif)) {
-            System.out.println(nif + " is not valid, this should be your Nif: 49535056W ");
-            customer.setNif("49535056W");
+            if (!validateNifNoRepeated(customer.getNif())) {
+                System.out.println("Customer with NIF " + nif + " already exists");
+            }
+
+            //Email
+            String email = "abel13ibarra@gmail.com";
+            if(validateEmailNoRepeated(email)) {
+                customer.setEmail(email);
+
+                if (!validateEmail(email)) {
+                    System.out.println("abel13ibarra#gmail.com is not valid, this should be your Email: abel13ibarra@gmail.com");
+                    customer.setEmail("abel13ibarra@gmail.com");
+                }
+
+                //Name & Surname
+                String name = "Abel", surname = "Ibarra";
+                customer.setName(name);
+                customer.setSurname(surname);
+
+                if ((!validateName(name))) {
+                    System.out.println("Ab44el is not valid, this should be your name without numbers: Abel");
+                    customer.setName("Abel");
+                }
+                if (!validateSurname(surname)) {
+                    System.out.println("Ibar33ra is not valid, this should be your surname without numbers: Ibarra");
+                    customer.setSurname("Ibarra");
+                }
+
+                //City
+                String city = "Lleida";
+                customer.setCity(city);
+
+                if (!validateCity(city)) {
+                    System.out.println(city + "is not a valid city name, it should be Lleida");
+                    customer.setCity("Lleida");
+                }
+
+                //Country
+                String country = "Marruecos";
+
+                if (validateCountry(country)) {
+                    customer.setCountry("Marruecos");
+                } else {
+                    System.out.println(country + " is not a valid country name");
+                }
+
+                customerDirectory.add(customer);
+            }else{
+                System.out.println("There is already a user with the email: "+ email);
+            }
+        }else{
+            System.out.println("There is already a user with the nif: "+ nif);
         }
-
-        if (!validateNifNoRepeated(customer.getNif())){
-            System.out.println("Customer with NIF " + nif + " already exists");
-        }
-
-        //Email
-        String Email = "abel13ibarra@gmail.com";
-        customer.setEmail(Email);
-
-        if (!validateEmail(Email)) {
-            System.out.println("abel13ibarra#gmail.com is not valid, this should be your Email: abel13ibarra@gmail.com");
-            customer.setEmail("abel13ibarra@gmail.com");
-        }
-
-        //Name & Surname
-        String name = "Abel", surname = "Ibarra";
-        customer.setName(name);
-        customer.setSurname(surname);
-
-        if ((!validateName(name))) {
-            System.out.println("Ab44el is not valid, this should be your name without numbers: Abel");
-            customer.setName("Abel");
-        }
-        if (!validateSurname(surname)) {
-            System.out.println("Ibar33ra is not valid, this should be your surname without numbers: Ibarra");
-            customer.setSurname("Ibarra");
-        }
-
-        //City
-        String city = "Lleida";
-        customer.setCity(city);
-
-        if (!validateCity(city)) {
-            System.out.println(city + "is not a valid city name, it should be Lleida");
-            customer.setCity("Lleida");
-        }
-
-        //Country
-        String country = "Marruecos";
-
-        if (!validateCountry(country)) {
-            System.out.println(country + "is not a valid city name, it should be Marruecos");
-            customer.setCountry("Marruecos");
-        }
-
-        customerDirectory.add(customer);
     }
 
     public void delete(Customer customer) {
@@ -109,6 +113,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
             if (!customerFound) { // si no s ha trobat cap customer amb el nif especificat
                 System.out.println("Customer with NIF " + NIFtoUpdate + " was not found in the database.");
+                valid = true;
             } else { // si s ha trobat un client amb el nif especificat
 
                 String newNIF = "00000000t";//menu.nif(); // nou nif
@@ -132,7 +137,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
                         System.out.println("That email already exists.");
                     }
                 } else {
-                    System.out.println("That NIF already exists.");// Falle aqui
+                    System.out.println("That NIF already exists.");
                 }
             }
         } while (!valid);
