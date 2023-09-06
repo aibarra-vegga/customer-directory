@@ -9,24 +9,31 @@ public class CustomerDirectoryService implements CustomerDirectory {
     Menu menu = new Menu();
     ArrayList<Customer> customerDirectory = new ArrayList<>();
 
-    public void create(Customer customer) {
+    public void create(Customer customer) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException {
 
         //Nif
         String nif = "49535056w";
         if(validateNifNoRepeated(nif)){
             customer.setNif(nif);
 
-            if (!validateNifNoRepeated(customer.getNif())) {
-                System.out.println("Customer with NIF " + nif + " already exists");
+            if((customer.getNif() == null)){
+                throw new MandatoryFieldNotProvidedException("The nif is missing");
             }
 
             //Email
             String email = "abel13ibarra@gmail.com";
+
             if(validateEmailNoRepeated(email)) {
                 customer.setEmail(email);
 
+                if((customer.getEmail() == null)){
+                    throw new MandatoryFieldNotProvidedException("The email is missing");
+                }
+
                 if (!validateEmail(email)) {
-                    System.out.println("abel13ibarra#gmail.com is not valid, this should be your Email: abel13ibarra@gmail.com");
+                    System.out.println("That email is not valid ");
+                    customer.setEmail("a@222sssdsdsdddssdd");
+                }else{
                     customer.setEmail("abel13ibarra@gmail.com");
                 }
 
@@ -36,11 +43,11 @@ public class CustomerDirectoryService implements CustomerDirectory {
                 customer.setSurname(surname);
 
                 if ((!validateName(name))) {
-                    System.out.println("Ab44el is not valid, this should be your name without numbers: Abel");
+                    System.out.println("That is not valid, this should be your name without numbers: Abel");
                     customer.setName("Abel");
                 }
                 if (!validateSurname(surname)) {
-                    System.out.println("Ibar33ra is not valid, this should be your surname without numbers: Ibarra");
+                    System.out.println("That is not valid, this should be your surname without numbers: Ibarra");
                     customer.setSurname("Ibarra");
                 }
 
@@ -64,11 +71,16 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
                 customerDirectory.add(customer);
             }else{
-                System.out.println("There is already a user with the email: "+ email);
+                throw new CustomerAlreadyExistsException("There is already a user with the email: "+ email);
             }
+
         }else{
-            System.out.println("There is already a user with the nif: "+ nif);
+            throw new CustomerAlreadyExistsException("There is already a user with the nif: "+ nif);
         }
+//        if((customer.getNif() == null) || (customer.getEmail() == null)){
+//            customer = null;
+//            throw new MandatoryFieldNotProvidedException("An important field is missing, the user was not created");
+//        }
     }
 
     public void delete(Customer customer) {
@@ -120,7 +132,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
                 if (!newNIF.equalsIgnoreCase(updatedCustomer.getNif()) || validateNifNoRepeated(newNIF)) { // no entre al bucle infinit per la validacio del nif
 
-                    updatedCustomer.setNif(newNIF);
+                    updatedCustomer.setNif(customer.getNif());
                     String newEmail = "a@a";
 
                     if (newEmail.equalsIgnoreCase(updatedCustomer.getEmail()) || validateEmailNoRepeated(newEmail)) {
@@ -406,7 +418,9 @@ public class CustomerDirectoryService implements CustomerDirectory {
                     System.out.println("You have not entered a valid email, please enter a valid one: ");
                 }
             } else {
-                System.out.println("The email has a whitespace, please try again: ");
+                //System.out.println("The email has a whitespace, please try again: ");
+                System.out.println("The email entered had a whitespace, so it has ben set to the default: a@222sssdsdsdddssdd ");
+                email = "a@222sssdsdsdddssdd";
                 valid = false;
             }
 

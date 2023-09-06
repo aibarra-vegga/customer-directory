@@ -6,7 +6,7 @@ package org.veggainternship.customers;
 //a les probes unitaries fer que cada test tingui totes les dades que necessita per a ser executat, es poden fer variors asserts i probar varios metodes al mateis  @test.
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException {
 
         Menu menu = new Menu();
         boolean entrar = false;
@@ -55,14 +55,6 @@ public class Main {
                         System.out.println();
                         customerDirectory.listAll();
                         System.out.println();
-                        break;
-                    case 11:
-                        customerDirectory.create(new Customer("00000000t", "abdel", "fatah", "abdel13fatah@gmail.com", "mondongo", "senegal"));
-                        customerDirectory.create(new Customer("12345678z", "cosmin", "mihai", "drthvader99@gmail.com", "mondongo", "arabia saudi"));
-                        break;
-                    case 12:
-                        customerDirectory.create(new Customer("49535056w", "a", "e", "s@w", "es", "marruecos"));
-                        customerDirectory.create(new Customer("81816780F", "ae", "ae", "s@ww", "esw", "marruecos"));
                         break;
                     default:
                         entrar = false;

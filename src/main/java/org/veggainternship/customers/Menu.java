@@ -44,8 +44,6 @@ public class Menu {
         System.out.println("8: Find user by City ");
         System.out.println("9: Find user by Country ");
         System.out.println("10: List all customers ");
-        System.out.println("11: Test user ");
-        System.out.println("12: Test user ");
 
         outer:
         do {
