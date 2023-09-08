@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomerDirectory {
-    void create(Customer customer) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException;
+
+    Customer create(Customer customer) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException;
 
     Optional<Customer> findByNif(String nif);
 
