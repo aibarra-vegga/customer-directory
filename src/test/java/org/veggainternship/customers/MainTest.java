@@ -36,24 +36,85 @@ class MainTest {
     }
 
     @Test
-    void testUpdateCustomer() throws MandatoryFieldNotProvidedException, InvalidNifException, CustomerNotFoundException, InvalidEmailException {
+    void updateCustomer() throws MandatoryFieldNotProvidedException, InvalidNifException, CustomerNotFoundException, InvalidEmailException {
         Customer updatedCustomer = new Customer("49535056w", "wwswww", "rdrrrrr", "a@aaa", "dddsd", "Argentina");
         customerDirectory.update(customerTest);
         assertTrue(updatedCustomer.equals(customerTest));
     }
 
     @Test
-    void findNameTest() throws MandatoryFieldNotProvidedException, InvalidNifException, InvalidEmailException, CustomerAlreadyExistsException {
+    void findNif() throws MandatoryFieldNotProvidedException, InvalidNifException, InvalidEmailException, CustomerAlreadyExistsException {
         Customer customerToFind = customerDirectory.create(new Customer());//Aqui al ja haber creat 2 usuaris adalt utilitze el tercer si no pete per la validacio dels usuaris no repetits
+        Optional<Customer> customers = customerDirectory.findByNif("00000000T");
+        assertTrue(customers.isPresent());
+    }
+    @Test
+    void findEmail() throws MandatoryFieldNotProvidedException, InvalidNifException, InvalidEmailException, CustomerAlreadyExistsException {
+        Customer customerToFind = customerDirectory.create(new Customer());
+        Optional<Customer> customers = customerDirectory.findByEmail("abel1311ibarra@gmail.com");
+        assertTrue(customers.isPresent());
+    }
+
+    @Test
+    void findName() throws MandatoryFieldNotProvidedException, InvalidNifException, InvalidEmailException, CustomerAlreadyExistsException {
+        Customer customerToFind = customerDirectory.create(new Customer());
         ArrayList<Customer> customers = customerDirectory.findByName("Abdels");
         assertTrue(customers.contains(customerToFind));
     }
 
     @Test
-    void listAllTest() {
+    void findSurame() throws MandatoryFieldNotProvidedException, InvalidNifException, InvalidEmailException, CustomerAlreadyExistsException {
+        Customer customerToFind = customerDirectory.create(new Customer());
+        ArrayList<Customer> customers = customerDirectory.findBySurname("Fatahs");
+        assertTrue(customers.contains(customerToFind));
+    }
+
+    @Test
+    void findCity() throws MandatoryFieldNotProvidedException, InvalidNifException, InvalidEmailException, CustomerAlreadyExistsException {
+        Customer customerToFind = customerDirectory.create(new Customer());
+        ArrayList<Customer> customers = customerDirectory.findByCity("Mollerussa");
+        assertTrue(customers.contains(customerToFind));
+    }
+
+    @Test
+    void findCountry() throws MandatoryFieldNotProvidedException, InvalidNifException, InvalidEmailException, CustomerAlreadyExistsException {
+        Customer customerToFind = customerDirectory.create(new Customer());
+        ArrayList<Customer> customers = customerDirectory.findByCountry("Marruecos");
+        assertTrue(customers.contains(customerToFind));
+    }
+
+    @Test
+    void listAll() {
         String list = String.valueOf(customerDirectory.listAll());
         //System.out.println(String.valueOf(customerDirectory.listAll())); per mirar que sigui correcte
         assertTrue(list.contains(customerTest.toString()) && list.contains(customerTest2.toString()));
     }
+
+    @Test
+    void validateNif() throws InvalidNifException {
+        assertTrue(customerDirectory.validateNif("49535056w"));
+        //no es pot ficar assertFalse amb dades no valides ja que tots els metodes de validacio entren en bucle infinit
+    }
+
+    @Test
+    void validateEmail() throws InvalidEmailException {
+        assertTrue(customerDirectory.validateEmail("abel13ibarra@gmail.com"));
+    }
+
+    @Test
+    void validateName(){
+        assertTrue(customerDirectory.validateName("Abdel"));
+    }
+
+    @Test
+    void validateSurname(){
+        assertTrue(customerDirectory.validateName("Fatah"));
+    }
+
+//    @Test
+//    void validateNifNoRepeated() {
+//        customerDirectory.listAll();
+//        assertTrue(customerDirectory.validateNifNoRepeated(customerTest.getNif()));
+//    }
 
 }

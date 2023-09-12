@@ -348,7 +348,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
             valid = false;
         }
 
-        return valid;
+        return valid; //retorne valid true si no trobe cap nif igual
     }
 
     public boolean validateEmailNoRepeated(String email) {
