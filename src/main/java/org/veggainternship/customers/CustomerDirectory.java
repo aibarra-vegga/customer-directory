@@ -20,9 +20,9 @@ public interface CustomerDirectory {
 
     List<Customer> findByCountry(String country);
 
-    void delete(Customer c);// throws CustomerNotFoundException;
+    void delete(Customer c) throws CustomerNotFoundException;
 
-    void update(Customer c);// throws CustomerNotFoundException, InvalidEmailException, MandatoryFieldNotProvidedException;
+    void update(Customer c) throws CustomerNotFoundException, InvalidEmailException, MandatoryFieldNotProvidedException, InvalidNifException;// falte aplicar
 
     public ArrayList<Customer> listAll();
 

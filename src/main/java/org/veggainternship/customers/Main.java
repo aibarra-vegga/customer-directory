@@ -1,12 +1,7 @@
 package org.veggainternship.customers;
 
-//treure el menu i donar els parametres ja fets a la part de validacio, fer les classes com estan a la interficie customerDirectory, treure el deletedCustomerDirectory,
-//les validacions de dades han d anar al create, fer que el listAll torni una llista, tambe pot imprimir els customers,
-//arreglar els bugs de update i delete i millorar el sistema de validacio de repetits, fer que el NIF sigui unic i no es pugui cambiar,
-//a les probes unitaries fer que cada test tingui totes les dades que necessita per a ser executat, es poden fer variors asserts i probar varios metodes al mateis  @test.
-
 public class Main {
-    public static void main(String[] args) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException {
+    public static void main(String[] args) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException, CustomerNotFoundException {
 
         Menu menu = new Menu();
         boolean entrar = false;

@@ -80,11 +80,9 @@ public class CustomerDirectoryService implements CustomerDirectory {
             } else {
                 throw new CustomerAlreadyExistsException("There is already a user with the nif: " + nif);
             }
-//        if((customer.getNif() == null) || (customer.getEmail() == null)){
-//            customer = null;
-//            throw new MandatoryFieldNotProvidedException("An important field is missing, the user was not created");
-//        } salte aquesta quan haurie de sortir la de CustomerAlreadyExistsException
-        }else{
+
+        }else if(customerDirectory.size() == 1){
+
             //Nif
             String nif = "00000000t";
             if (validateNifNoRepeated(nif)) {
@@ -153,15 +151,82 @@ public class CustomerDirectoryService implements CustomerDirectory {
             } else {
                 throw new CustomerAlreadyExistsException("There is already a user with the nif: " + nif);
             }
-//        if((customer.getNif() == null) || (customer.getEmail() == null)){
-//            customer = null;
-//            throw new MandatoryFieldNotProvidedException("An important field is missing, the user was not created");
-//        } salte aquesta quan haurie de sortir la de CustomerAlreadyExistsException
+
+        }else {
+
+            //Nif
+            String nif = "40922497T";
+            if (validateNifNoRepeated(nif)) {
+                customer.setNif(nif);
+
+                if ((customer.getNif() == null) || (customer.getNif().contains(" "))) {
+                    throw new MandatoryFieldNotProvidedException("The nif is missing");
+                }
+                if (!validateNif(customer.getNif())) {
+                    throw new InvalidNifException("The nif " + customer.getNif() + " is not valid");
+                }
+
+                //Email
+                String email = "abel131113ibarra@gmail.com";
+
+                if (validateEmailNoRepeated(email)) {
+                    customer.setEmail(email);
+
+                    if ((customer.getEmail() == null)) {
+                        throw new MandatoryFieldNotProvidedException("The email is missing");
+                    }
+
+                    if (!validateEmail(email)) {
+                        customer.setEmail("a@222gsssdsdsdtddssdd");
+                        throw new InvalidEmailException("Invalid email");
+                    } else {
+                        customer.setEmail("abel131113ibarra@gmail.com");
+                    }
+
+                    //Name & Surname
+                    String name = "Abdels", surname = "Fatahs";
+                    customer.setName(name);
+                    customer.setSurname(surname);
+
+                    if ((!validateName(name))) {
+                        customer.setName(name);
+                    }
+                    if (!validateSurname(surname)) {
+                        customer.setSurname(surname);
+                    }
+
+                    //City
+                    String city = "Mollerussa";
+                    customer.setCity(city);
+
+                    if (!validateCity(city)) {
+                        System.out.println(city + "is not a valid city name, it should be Lleida");
+                        customer.setCity("Lleida");
+                    }
+
+                    //Country
+                    String country = "Marruecos";
+
+                    if (validateCountry(country)) {
+                        customer.setCountry(country);
+                    } else {
+                        System.out.println(country + " is not a valid country name");
+                    }
+
+                    customerDirectory.add(customer);
+
+                } else {
+                    throw new CustomerAlreadyExistsException("There is already a user with the email: " + email);
+                }
+
+            } else {
+                throw new CustomerAlreadyExistsException("There is already a user with the nif: " + nif);
+            }
         }
         return customer;// per les proves unitaries a la part del create
     }
 
-    public void delete(Customer customer) {
+    public void delete(Customer customer) throws CustomerNotFoundException {
 
         String NIFtoErase = "49535056w";
         boolean customerFound = false;
@@ -177,11 +242,11 @@ public class CustomerDirectoryService implements CustomerDirectory {
             }
         }
         if (!customerFound) {
-            System.out.println("Customer with NIF " + NIFtoErase + " was not found in the database.");
+            throw new CustomerNotFoundException("Customer with NIF " + NIFtoErase + " was not found in the database.");
         }
     }
 
-    public void update(Customer customer) {
+    public void update(Customer customer) throws CustomerNotFoundException, InvalidEmailException, MandatoryFieldNotProvidedException, InvalidNifException {
 
         boolean valid = false;
         boolean customerFound = false;
@@ -196,38 +261,51 @@ public class CustomerDirectoryService implements CustomerDirectory {
                     if (c.getNif().equalsIgnoreCase(NIFtoUpdate)) {
                         customerFound = true;
                         updatedCustomer = c;
-                        customer = c;
+                        NIFtoUpdate = c.getNif();
                     }
                 }
             } // trobe el customer i fa que el updatedCustomer tingui els valors del customer a actualitzar
 
             if (!customerFound) { // si no s ha trobat cap customer amb el nif especificat
-                System.out.println("Customer with NIF " + NIFtoUpdate + " was not found in the database.");
-                valid = true;
+                throw new CustomerNotFoundException("Customer with NIF " + NIFtoUpdate + " was not found in the database.");
             } else { // si s ha trobat un client amb el nif especificat
 
-                String newNIF = "40922497T";//menu.nif(); // nou nif
+                String newEmail = "a@aaa";
+                String newName = "wwswww";
+                String newSurname = "rdrrrrr";
+                String newCity = "dddsd";
+                String newCountry = "Argentina";
 
-                if (!newNIF.equalsIgnoreCase(updatedCustomer.getNif()) || validateNifNoRepeated(newNIF)) { // no entre al bucle infinit per la validacio del nif
+                if(NIFtoUpdate == null || newEmail == null || newName == null || newSurname == null || newCity == null || newCountry == null){
+                    throw new MandatoryFieldNotProvidedException("An important field is missing");
+                }
 
-                    updatedCustomer.setNif(customer.getNif());
-                    String newEmail = "a@aaa";
+                if ((validateNif(NIFtoUpdate))) {
 
-                    if (newEmail.equalsIgnoreCase(updatedCustomer.getEmail()) || validateEmailNoRepeated(newEmail)) {
+                    if ((newEmail.equalsIgnoreCase(updatedCustomer.getEmail()) || validateEmailNoRepeated(newEmail) && (validateEmail(newEmail)))) {
 
                         updatedCustomer.setEmail(newEmail);
-                        updatedCustomer.setName("wwswww");
-                        updatedCustomer.setSurname("rdrrrrr");
-                        updatedCustomer.setCity("dddsd");
-                        updatedCustomer.setCountry("Argentina");
+                        if(validateName(newName)) {
+                            updatedCustomer.setName(newName);
+                        }
+                        if(validateSurname(newSurname)) {
+                            updatedCustomer.setSurname(newSurname);
+                        }
+                        if(validateCity(newCity)) {
+                            updatedCustomer.setCity(newCity);
+                        }
+                        if(validateCountry(newCountry)) {
+                            updatedCustomer.setCountry(newCountry);
+                        }
 
                         System.out.println("Customer with NIF " + NIFtoUpdate + " has been successfully updated in the database.");
                         valid = true;
+
                     } else {
-                        System.out.println("That email already exists.");
+                        throw new InvalidEmailException("That email already exists or is incorrect");
                     }
                 } else {
-                    System.out.println("That NIF already exists.");
+                    throw new InvalidNifException("That nif is incorrect");
                 }
             }
         } while (!valid);
