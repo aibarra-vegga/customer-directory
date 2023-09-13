@@ -11,7 +11,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
 
     public Customer create(Customer customer) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException {
 
-        if(customerDirectory.size() == 0) {
+        if (customerDirectory.size() == 0) {
             //Nif
             String nif = "49535056w";
             if (validateNifNoRepeated(nif)) {
@@ -81,7 +81,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
                 throw new CustomerAlreadyExistsException("There is already a user with the nif: " + nif);
             }
 
-        }else if(customerDirectory.size() == 1){
+        } else if (customerDirectory.size() == 1) {
 
             //Nif
             String nif = "00000000t";
@@ -152,7 +152,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
                 throw new CustomerAlreadyExistsException("There is already a user with the nif: " + nif);
             }
 
-        }else {
+        } else {
 
             //Nif
             String nif = "40922497T";
@@ -276,7 +276,7 @@ public class CustomerDirectoryService implements CustomerDirectory {
                 String newCity = "dddsd";
                 String newCountry = "Argentina";
 
-                if(NIFtoUpdate == null || newEmail == null || newName == null || newSurname == null || newCity == null || newCountry == null){
+                if (NIFtoUpdate == null || newEmail == null || newName == null || newSurname == null || newCity == null || newCountry == null) {
                     throw new MandatoryFieldNotProvidedException("An important field is missing");
                 }
 
@@ -285,16 +285,16 @@ public class CustomerDirectoryService implements CustomerDirectory {
                     if ((newEmail.equalsIgnoreCase(updatedCustomer.getEmail()) || validateEmailNoRepeated(newEmail) && (validateEmail(newEmail)))) {
 
                         updatedCustomer.setEmail(newEmail);
-                        if(validateName(newName)) {
+                        if (validateName(newName)) {
                             updatedCustomer.setName(newName);
                         }
-                        if(validateSurname(newSurname)) {
+                        if (validateSurname(newSurname)) {
                             updatedCustomer.setSurname(newSurname);
                         }
-                        if(validateCity(newCity)) {
+                        if (validateCity(newCity)) {
                             updatedCustomer.setCity(newCity);
                         }
-                        if(validateCountry(newCountry)) {
+                        if (validateCountry(newCountry)) {
                             updatedCustomer.setCountry(newCountry);
                         }
 
@@ -490,64 +490,60 @@ public class CustomerDirectoryService implements CustomerDirectory {
     public boolean validateNif(String Nif) throws InvalidNifException {
 
         boolean valid = false;
-        outer:
-        do {
 
-            String numnif = "";
 
-            if (Nif.length() == 9) {
+        String numnif = "";
 
-                for (int i = 0; i <= 7; i++) {
-                    numnif += Nif.charAt(i);
-                    if (!Character.isDigit(Nif.charAt(i))) {
+        if (Nif.length() == 9) {
 
-                        valid = false;
-                        System.out.println("This nif is not correct, " + Nif.charAt(i) + " is not a number");
-                        continue outer;
-
-                    }
-                }
-
-                if (Character.isAlphabetic(Nif.charAt(8))) {
-                    valid = true;
-                } else {
+            for (int i = 0; i <= 7; i++) {
+                numnif += Nif.charAt(i);
+                if (!Character.isDigit(Nif.charAt(i))) {
                     valid = false;
-                    System.out.println("Last character of the nif is not a letter");
+                    //System.out.println("This nif is not correct, " + Nif.charAt(i) + " is not a number");
                 }
-            } else {
-                System.out.println("This nif does not have 9 characters");
             }
 
-            // Validación del DNI
-            if (valid) {
+            if (Character.isAlphabetic(Nif.charAt(8))) {
+                valid = true;
+            } else {
+                valid = false;
+                //System.out.println("Last character of the nif is not a letter");
+            }
+        } else {
+            //System.out.println("This nif does not have 9 characters");
+            valid = false;
+        }
 
-                char lletraDNI = Nif.charAt(8);
+        // Validación del DNI
+        if (valid) {
 
-                int numDNI = Integer.parseInt(numnif);
-                String DNI = "";
-                String[] lletresMaj = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
-                String[] lletresMin = {"t", "r", "w", "a", "g", "m", "y", "f", "p", "d", "x", "b", "n", "j", "z", "s", "q", "v", "h", "l", "c", "k", "e"};
+            char lletraDNI = Nif.charAt(8);
 
-                int modDNI = numDNI % 23;
-                if (Character.isUpperCase(lletraDNI)) {
-                    DNI += lletresMaj[modDNI];
-                } else if (Character.isLowerCase(lletraDNI)) {
-                    DNI += lletresMin[modDNI];
-                }
-                if (lletraDNI == DNI.charAt(0)) {
-                    Nif = numnif + DNI;
-                    valid = true;
+            int numDNI = Integer.parseInt(numnif);
+            String DNI = "";
+            String[] lletresMaj = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
+            String[] lletresMin = {"t", "r", "w", "a", "g", "m", "y", "f", "p", "d", "x", "b", "n", "j", "z", "s", "q", "v", "h", "l", "c", "k", "e"};
 
-                } else {
-                    valid = false;
-                    throw new InvalidNifException("This nif is not well calculated");
-                }
+            int modDNI = numDNI % 23;
+            if (Character.isUpperCase(lletraDNI)) {
+                DNI += lletresMaj[modDNI];
+            } else if (Character.isLowerCase(lletraDNI)) {
+                DNI += lletresMin[modDNI];
+            }
+            if (lletraDNI == DNI.charAt(0)) {
+                Nif = numnif + DNI;
+                valid = true;
 
             } else {
-                System.out.println("This nif is not valid, try again: ");
+                valid = false;
+                //throw new InvalidNifException("This nif is not well calculated");
             }
-        } while (!valid);
 
+        } else {
+            //System.out.println("This nif is not valid");
+            valid = false;
+        }
         return valid;
 
     }
@@ -555,31 +551,21 @@ public class CustomerDirectoryService implements CustomerDirectory {
     public boolean validateEmail(String email) throws InvalidEmailException {
 
         boolean valid = true;
-        do {
 
-            String patro = "^(.+)@(.+)$";
-            Pattern pattern = Pattern.compile(patro);
-            Matcher matcher = pattern.matcher(email);
-            if (!email.isBlank()) {
-                if (matcher.matches()) {
-                    email = email.replaceAll("\\s", "");
-                    valid = true;
-                } else {
-                    valid = false;
-                    System.out.println("You have not entered a valid email, please enter a valid one: ");
-                }
+        String patro = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(patro);
+        Matcher matcher = pattern.matcher(email);
+        if (!email.isBlank()) {
+            if (matcher.matches()) {
+                email = email.replaceAll("\\s", "");
+                valid = true;
             } else {
-                //System.out.println("The email has a whitespace, please try again: ");
-                System.out.println("The email entered had a whitespace, so it has ben set to the default: a@222sssdsdsdddssdd ");
-                email = "a@222sssdsdsdddssdd";
                 valid = false;
             }
-
-            if (!valid) {
-                throw new InvalidEmailException("The email: " + email + " is not valid");
-            }
-
-        } while (!valid);
+        } else {
+            valid = false;
+            throw new InvalidEmailException("The email: " + email + " is not valid");
+        }
 
         return valid;
     }
@@ -587,102 +573,79 @@ public class CustomerDirectoryService implements CustomerDirectory {
     public boolean validateName(String name) {
 
         boolean valid = false;
-        int counter = 0;
+        int c1 = 0;
 
-        do {
-
-            for (char c : name.toCharArray()) {
-
+        for (char c : name.toCharArray()) {
+            if (valid || c1 == 0) {
+                c1++;
                 if (Character.isLetter(c) || c == ' ') {
-                    name += c;
                     valid = true;
                 } else {
-                    System.out.println(c + " is not a valid character for a name ");
                     valid = false;
                 }
             }
+        }
 
-            if ((!valid) && (counter > 0) || name.isBlank()) {
-                valid = false;
-            }
-            counter++;
-        } while (!valid);
-
+        if (name.isBlank()) {
+            valid = false;
+        }
         return valid;
     }
 
     public boolean validateSurname(String surname) {
 
         boolean valid = false;
-        int counter = 0;
+        int c1 = 0;
 
-        do {
-
-            for (char c : surname.toCharArray()) {
-
+        for (char c : surname.toCharArray()) {
+            if (valid || c1 == 0) {// falle al seguir executant el bucle i pille com a valids cognoms no valids sense el contador c1 o un break
+                c1++;
                 if (Character.isLetter(c) || c == ' ') {
-                    surname += c;
                     valid = true;
                 } else {
-                    System.out.println(c + " is not a valid character for a surname ");
                     valid = false;
                 }
             }
+        }
 
-            if ((!valid) && (counter > 0) || surname.isBlank()) {
-                valid = false;
-            }
-            counter++;
-        } while (!valid);
-
+        if (surname.isBlank()) {
+            valid = false;
+        }
         return valid;
     }
 
     public boolean validateCity(String city) {
 
-        Scanner scan = new Scanner(System.in);
         boolean valid = false;
-
+        boolean trobada = false;
+        String validatedCity = "";
         Locale[] locales = Locale.getAvailableLocales();
 
-        do {
+        if (city.isBlank()) {
+            valid = false;
+        } else {
+            for (char c : city.toCharArray()) {
 
-            boolean trobada = false;
+                if (Character.isLetter(c) || c == ' ') {
+                    valid = true;
+                    validatedCity += c;
+                } else {
+                    return false; //amb la variable valid no funciona be ja que pille valids noms que tenen numeros per que el bucle continue i valid es torne a ficar true
+                }
 
-            if (city.isBlank()) {
-                System.out.println("You have entered an empty name of a city, please try again: ");
-            } else {
-                for (char c : city.toCharArray()) {
-                    if (Character.isLetter(c)) {
-                        valid = true;
-                        city += c;
-                    } else {
-                        System.out.println(c + " is not a valid character for a city ");
+            }
+            for (Locale locale : locales) {
+                if (!trobada) {
+                    if (validatedCity.equalsIgnoreCase(locale.getDisplayCountry())) {
                         valid = false;
+                        trobada = true;
+                    } else {
+                        valid = true;
+                        trobada = false;
                     }
-                }
-                for (Locale locale : locales) {
-
-                    if (!trobada) {
-                        if (city.equalsIgnoreCase(locale.getDisplayCountry())) {
-                            valid = false;
-                            trobada = true;
-                        } else {
-                            valid = true;
-                            trobada = false;
-                        }
-                    }
-                }
-                if (trobada) {
-                    System.out.println("That's a country ");
-                }
-                if (!valid) {
-                    System.out.println("Please try again: ");
                 }
             }
-
-        } while (!valid);
-
+        }
         return valid;
     }
 
@@ -691,18 +654,14 @@ public class CustomerDirectoryService implements CustomerDirectory {
         boolean valid = false;
         Locale[] locales = Locale.getAvailableLocales();
 
-        do {
-
             for (Locale locale : locales) {
                 if (!valid) {
-                    if (country.equalsIgnoreCase(locale.getDisplayCountry()) && ((country != null) || (country != " "))) {
+                    if (country.equalsIgnoreCase(locale.getDisplayCountry()) && ((country != null))) {
                         valid = true;
                         country = locale.getDisplayCountry();
                     }
                 }
             }
-
-        } while (!valid);
 
         return valid;
     }

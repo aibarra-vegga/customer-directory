@@ -15,7 +15,7 @@ class MainTest {
     CustomerDirectoryService customerDirectory = new CustomerDirectoryService();
     ArrayList<Customer> activeList = new ArrayList<>();
 
-    Customer customer = new Customer("49535056w","Abel","Ibarra","abel13ibarra@gmail.com","Lleida","Marruecos");
+    Customer customer = new Customer("49535056w", "Abel", "Ibarra", "abel13ibarra@gmail.com", "Lleida", "Marruecos");
     Customer customerTest = customerDirectory.create(new Customer());
     Customer customerTest2 = customerDirectory.create(new Customer());
 
@@ -48,6 +48,7 @@ class MainTest {
         Optional<Customer> customers = customerDirectory.findByNif("00000000T");
         assertTrue(customers.isPresent());
     }
+
     @Test
     void findEmail() throws MandatoryFieldNotProvidedException, InvalidNifException, InvalidEmailException, CustomerAlreadyExistsException {
         Customer customerToFind = customerDirectory.create(new Customer());
@@ -93,28 +94,52 @@ class MainTest {
     @Test
     void validateNif() throws InvalidNifException {
         assertTrue(customerDirectory.validateNif("49535056w"));
+        assertFalse(customerDirectory.validateNif("49535056f"));
         //no es pot ficar assertFalse amb dades no valides ja que tots els metodes de validacio entren en bucle infinit
     }
 
     @Test
     void validateEmail() throws InvalidEmailException {
         assertTrue(customerDirectory.validateEmail("abel13ibarra@gmail.com"));
+        assertFalse(customerDirectory.validateEmail("Manolito Pies de Plata"));
     }
 
     @Test
-    void validateName(){
+    void validateName() {
         assertTrue(customerDirectory.validateName("Abdel"));
+        assertFalse(customerDirectory.validateName("44Ab44del44"));
     }
 
     @Test
-    void validateSurname(){
-        assertTrue(customerDirectory.validateName("Fatah"));
+    void validateSurname() {
+        assertTrue(customerDirectory.validateSurname("Fatah"));
+        assertFalse(customerDirectory.validateSurname("777Fata777h"));
     }
 
-//    @Test
-//    void validateNifNoRepeated() {
-//        customerDirectory.listAll();
-//        assertTrue(customerDirectory.validateNifNoRepeated(customerTest.getNif()));
-//    }
+    @Test
+    void validateCity(){
+        assertTrue(customerDirectory.validateCity("Repampanos"));
+        assertFalse(customerDirectory.validateCity("Cara44colas"));
+    }
+
+    @Test
+    void validateCountry(){
+        assertTrue(customerDirectory.validateCountry("Marruecos"));
+        assertFalse(customerDirectory.validateCountry("Penelope22"));
+    }
+
+    @Test
+    void validateNifNoRepeated() {
+        customerDirectory.listAll();
+        assertTrue(customerDirectory.validateNifNoRepeated("99920999Y"));
+        assertFalse(customerDirectory.validateNifNoRepeated("49535056w"));
+    }
+
+    @Test
+    void validateEmailNoRepeated() {
+        customerDirectory.listAll();
+        assertTrue(customerDirectory.validateEmailNoRepeated("a@kslslslslslsls"));
+        assertFalse(customerDirectory.validateEmailNoRepeated("abel13ibarra@gmail.com"));
+    }
 
 }

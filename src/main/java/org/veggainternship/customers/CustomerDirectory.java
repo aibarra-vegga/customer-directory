@@ -22,7 +22,7 @@ public interface CustomerDirectory {
 
     void delete(Customer c) throws CustomerNotFoundException;
 
-    void update(Customer c) throws CustomerNotFoundException, InvalidEmailException, MandatoryFieldNotProvidedException, InvalidNifException;// falte aplicar
+    void update(Customer c) throws CustomerNotFoundException, InvalidEmailException, MandatoryFieldNotProvidedException, InvalidNifException;
 
     public ArrayList<Customer> listAll();
 
