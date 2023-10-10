@@ -1,31 +1,26 @@
 package org.veggainternship.customers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Customer {
     private String nif;
+    private String email;
     private String name;
     private String surname;
-    private String email;
     private String city;
     private String country;
-    Menu menu = new Menu();
-    public Customer() {
 
-        this.nif = nif;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.city = city;
-        this.country = country;
+    public Customer() {
 
     }
     public Customer(String nif, String name, String surname, String email, String city, String country) {
 
         this.nif = nif;
+        this.email = email;
         this.name = name;
         this.surname = surname;
-        this.email = email;
         this.city = city;
         this.country = country;
 
@@ -100,4 +95,5 @@ public class Customer {
     public int hashCode() {
         return Objects.hash(getNif(), getName(), getSurname(), getEmail(), getCity(), getCountry());
     }
+
 }

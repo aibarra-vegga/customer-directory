@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Menu {
+
     public boolean menuPrincipal(boolean entrar) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Do you want to enter? ");
@@ -44,6 +45,7 @@ public class Menu {
         System.out.println("8: Find user by City ");
         System.out.println("9: Find user by Country ");
         System.out.println("10: List all customers ");
+        System.out.println("11: Test customers ");
 
         outer:
         do {
@@ -102,6 +104,7 @@ public class Menu {
 
         return email;
     }
+
     public String nif() {
 
         Scanner scan = new Scanner(System.in);
@@ -170,6 +173,7 @@ public class Menu {
         return nif;
 
     }
+
     public String name() {
 
         Scanner scan = new Scanner(System.in);

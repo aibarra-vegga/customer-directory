@@ -6,420 +6,146 @@ import java.util.regex.Pattern;
 
 public class CustomerDirectoryService implements CustomerDirectory {
 
-    Menu menu = new Menu();
     ArrayList<Customer> customerDirectory = new ArrayList<>();
+    Menu menu = new Menu();
 
-    public Customer create(Customer customer) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException, InvalidNifException, InvalidEmailException {
+    public Customer create(Customer customer) throws MandatoryFieldNotProvidedException, CustomerAlreadyExistsException{
 
-        if (customerDirectory.size() == 0) {
-            //Nif
-            String nif = "49535056w";
-            if (validateNifNoRepeated(nif)) {
-                customer.setNif(nif);
-
-                if ((customer.getNif() == null) || (customer.getNif().contains(" "))) {
-                    throw new MandatoryFieldNotProvidedException("The nif is missing");
-                }
-                if (!validateNif(customer.getNif())) {
-                    throw new InvalidNifException("The nif " + customer.getNif() + " is not valid");
-                }
-
-                //Email
-                String email = "abel13ibarra@gmail.com";
-
-                if (validateEmailNoRepeated(email)) {
-                    customer.setEmail(email);
-
-                    if ((customer.getEmail() == null)) {
-                        throw new MandatoryFieldNotProvidedException("The email is missing");
-                    }
-
-                    if (!validateEmail(email)) {
-                        customer.setEmail("a@222sssdsdsdddssdd");
-                        throw new InvalidEmailException("Invalid email");
-                    } else {
-                        customer.setEmail("abel13ibarra@gmail.com");
-                    }
-
-                    //Name & Surname
-                    String name = "Abel", surname = "Ibarra";
-                    customer.setName(name);
-                    customer.setSurname(surname);
-
-                    if ((!validateName(name))) {
-                        customer.setName("Abel");
-                    }
-                    if (!validateSurname(surname)) {
-                        customer.setSurname("Ibarra");
-                    }
-
-                    //City
-                    String city = "Lleida";
-                    customer.setCity(city);
-
-                    if (!validateCity(city)) {
-                        System.out.println(city + "is not a valid city name, it should be Lleida");
-                        customer.setCity("Lleida");
-                    }
-
-                    //Country
-                    String country = "Marruecos";
-
-                    if (validateCountry(country)) {
-                        customer.setCountry("Marruecos");
-                    } else {
-                        System.out.println(country + " is not a valid country name");
-                    }
-
-                    customerDirectory.add(customer);
-
-                } else {
-                    throw new CustomerAlreadyExistsException("There is already a user with the email: " + email);
-                }
-
-            } else {
-                throw new CustomerAlreadyExistsException("There is already a user with the nif: " + nif);
-            }
-
-        } else if (customerDirectory.size() == 1) {
-
-            //Nif
-            String nif = "00000000t";
-            if (validateNifNoRepeated(nif)) {
-                customer.setNif(nif);
-
-                if ((customer.getNif() == null) || (customer.getNif().contains(" "))) {
-                    throw new MandatoryFieldNotProvidedException("The nif is missing");
-                }
-                if (!validateNif(customer.getNif())) {
-                    throw new InvalidNifException("The nif " + customer.getNif() + " is not valid");
-                }
-
-                //Email
-                String email = "abel1311ibarra@gmail.com";
-
-                if (validateEmailNoRepeated(email)) {
-                    customer.setEmail(email);
-
-                    if ((customer.getEmail() == null)) {
-                        throw new MandatoryFieldNotProvidedException("The email is missing");
-                    }
-
-                    if (!validateEmail(email)) {
-                        customer.setEmail("a@222sssdsdsdtddssdd");
-                        throw new InvalidEmailException("Invalid email");
-                    } else {
-                        customer.setEmail("abel1311ibarra@gmail.com");
-                    }
-
-                    //Name & Surname
-                    String name = "Abdel", surname = "Fatah";
-                    customer.setName(name);
-                    customer.setSurname(surname);
-
-                    if ((!validateName(name))) {
-                        customer.setName(name);
-                    }
-                    if (!validateSurname(surname)) {
-                        customer.setSurname(surname);
-                    }
-
-                    //City
-                    String city = "Mollerussa";
-                    customer.setCity(city);
-
-                    if (!validateCity(city)) {
-                        System.out.println(city + "is not a valid city name, it should be Lleida");
-                        customer.setCity("Lleida");
-                    }
-
-                    //Country
-                    String country = "Marruecos";
-
-                    if (validateCountry(country)) {
-                        customer.setCountry(country);
-                    } else {
-                        System.out.println(country + " is not a valid country name");
-                    }
-
-                    customerDirectory.add(customer);
-
-                } else {
-                    throw new CustomerAlreadyExistsException("There is already a user with the email: " + email);
-                }
-
-            } else {
-                throw new CustomerAlreadyExistsException("There is already a user with the nif: " + nif);
-            }
-
-        } else {
-
-            //Nif
-            String nif = "40922497T";
-            if (validateNifNoRepeated(nif)) {
-                customer.setNif(nif);
-
-                if ((customer.getNif() == null) || (customer.getNif().contains(" "))) {
-                    throw new MandatoryFieldNotProvidedException("The nif is missing");
-                }
-                if (!validateNif(customer.getNif())) {
-                    throw new InvalidNifException("The nif " + customer.getNif() + " is not valid");
-                }
-
-                //Email
-                String email = "abel131113ibarra@gmail.com";
-
-                if (validateEmailNoRepeated(email)) {
-                    customer.setEmail(email);
-
-                    if ((customer.getEmail() == null)) {
-                        throw new MandatoryFieldNotProvidedException("The email is missing");
-                    }
-
-                    if (!validateEmail(email)) {
-                        customer.setEmail("a@222gsssdsdsdtddssdd");
-                        throw new InvalidEmailException("Invalid email");
-                    } else {
-                        customer.setEmail("abel131113ibarra@gmail.com");
-                    }
-
-                    //Name & Surname
-                    String name = "Abdels", surname = "Fatahs";
-                    customer.setName(name);
-                    customer.setSurname(surname);
-
-                    if ((!validateName(name))) {
-                        customer.setName(name);
-                    }
-                    if (!validateSurname(surname)) {
-                        customer.setSurname(surname);
-                    }
-
-                    //City
-                    String city = "Mollerussa";
-                    customer.setCity(city);
-
-                    if (!validateCity(city)) {
-                        System.out.println(city + "is not a valid city name, it should be Lleida");
-                        customer.setCity("Lleida");
-                    }
-
-                    //Country
-                    String country = "Marruecos";
-
-                    if (validateCountry(country)) {
-                        customer.setCountry(country);
-                    } else {
-                        System.out.println(country + " is not a valid country name");
-                    }
-
-                    customerDirectory.add(customer);
-
-                } else {
-                    throw new CustomerAlreadyExistsException("There is already a user with the email: " + email);
-                }
-
-            } else {
-                throw new CustomerAlreadyExistsException("There is already a user with the nif: " + nif);
-            }
+        if ((customer.getNif() == null) || (customer.getNif().contains(" "))) {
+            throw new MandatoryFieldNotProvidedException("The nif is missing");
         }
-        return customer;// per les proves unitaries a la part del create
+
+        if (validateNifNoRepeated(customer.getNif()) || (validateEmailNoRepeated(customer.getEmail()))) {
+            throw new CustomerAlreadyExistsException("There is already a user with the nif: " + customer.getNif());
+        }
+
+        if (customer.getName().equalsIgnoreCase("") || (customer.getSurname().equalsIgnoreCase("")) || (customer.getCity().equalsIgnoreCase("")) || (customer.getCountry().equalsIgnoreCase(""))) { // mirar que els camps no estiguin malament
+            throw new MandatoryFieldNotProvidedException("One of the fields is missing");
+        }
+
+        customerDirectory.add(customer);
+
+        return customer;
     }
 
-    public void delete(Customer customer) throws CustomerNotFoundException {
+    public void delete(String nif) throws CustomerNotFoundException { // intentar fer sense el menu
 
-        String NIFtoErase = "49535056w";
         boolean customerFound = false;
 
         for (Customer c : customerDirectory) {
             if (!customerFound) {
-                if (c.getNif().equalsIgnoreCase(NIFtoErase)) {
-                    System.out.println("Customer with NIF " + NIFtoErase + " has been successfully removed from the database.");
+                if (c.getNif().equalsIgnoreCase(nif)) {
                     customerDirectory.remove(c);
+                    System.out.println("Customer with NIF " + nif + " has been successfully removed from the database.");
                     customerFound = true;
-                    break; // intentar arreglar sense el break
+                    break;
                 }
             }
         }
         if (!customerFound) {
-            throw new CustomerNotFoundException("Customer with NIF " + NIFtoErase + " was not found in the database.");
+            throw new CustomerNotFoundException("Customer with NIF " + nif + " was not found in the database.");
         }
     }
 
-    public void update(Customer customer) throws CustomerNotFoundException, InvalidEmailException, MandatoryFieldNotProvidedException, InvalidNifException {
+    public void update(String nif, String email, String name, String surname, String city, String country) throws CustomerNotFoundException, CustomerAlreadyExistsException { // intentar arreglar sense el menu
 
-        boolean valid = false;
         boolean customerFound = false;
 
-        do {
-
-            String NIFtoUpdate = "49535056w";//menu.NIFtoUpdate(); el dni de la persona a la que vols fer el update
-            Customer updatedCustomer = new Customer();
-
-            for (Customer c : customerDirectory) {
-                if (!customerFound) {
-                    if (c.getNif().equalsIgnoreCase(NIFtoUpdate)) {
-                        customerFound = true;
-                        updatedCustomer = c;
-                        NIFtoUpdate = c.getNif();
-                    }
-                }
-            } // trobe el customer i fa que el updatedCustomer tingui els valors del customer a actualitzar
-
-            if (!customerFound) { // si no s ha trobat cap customer amb el nif especificat
-                throw new CustomerNotFoundException("Customer with NIF " + NIFtoUpdate + " was not found in the database.");
-            } else { // si s ha trobat un client amb el nif especificat
-
-                String newEmail = "a@aaa";
-                String newName = "wwswww";
-                String newSurname = "rdrrrrr";
-                String newCity = "dddsd";
-                String newCountry = "Argentina";
-
-                if (NIFtoUpdate == null || newEmail == null || newName == null || newSurname == null || newCity == null || newCountry == null) {
-                    throw new MandatoryFieldNotProvidedException("An important field is missing");
-                }
-
-                if ((validateNif(NIFtoUpdate))) {
-
-                    if ((newEmail.equalsIgnoreCase(updatedCustomer.getEmail()) || validateEmailNoRepeated(newEmail) && (validateEmail(newEmail)))) {
-
-                        updatedCustomer.setEmail(newEmail);
-                        if (validateName(newName)) {
-                            updatedCustomer.setName(newName);
-                        }
-                        if (validateSurname(newSurname)) {
-                            updatedCustomer.setSurname(newSurname);
-                        }
-                        if (validateCity(newCity)) {
-                            updatedCustomer.setCity(newCity);
-                        }
-                        if (validateCountry(newCountry)) {
-                            updatedCustomer.setCountry(newCountry);
-                        }
-
-                        System.out.println("Customer with NIF " + NIFtoUpdate + " has been successfully updated in the database.");
-                        valid = true;
-
-                    } else {
-                        throw new InvalidEmailException("That email already exists or is incorrect");
-                    }
+        for (Customer c : customerDirectory) {
+            if(c.getNif().equalsIgnoreCase(nif)){
+                if (c.getEmail().equalsIgnoreCase(email)) { // per si no vol cambiar el gmail
+                    c.setEmail(email);
+                    c.setName(name);
+                    c.setSurname(surname);
+                    c.setCity(city);
+                    c.setCountry(country);
+                    customerFound = true;
+                    break;
+                } else if (!validateEmailNoRepeated(email)) {
+                    c.setEmail(email);
+                    c.setName(name);
+                    c.setSurname(surname);
+                    c.setCity(city);
+                    c.setCountry(country);
+                    customerFound = true;
+                    break;
                 } else {
-                    throw new InvalidNifException("That nif is incorrect");
+                    throw new CustomerAlreadyExistsException("An user with that email already exists");
                 }
             }
-        } while (!valid);
+        }
+
+        if (!customerFound) { // si no s ha trobat cap customer amb el nif especificat // fer que peti abans aixo que el gmail si fiques dni que no existeixen
+            throw new CustomerNotFoundException("Customer with NIF " + nif + " was not found in the database.");
+        }
     }
 
     public ArrayList<Customer> listAll() {
 
         ArrayList<Customer> list = customerDirectory;
-        for (Customer c : list) {
+        for (Customer c : customerDirectory) {
             System.out.println(c.toString());
-            System.out.println("-----------------------------------------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
 
         return list;
 
     }
 
-    public boolean validateNifNoRepeated(String nif) {
+    public boolean validateNifNoRepeated(String nif) { // invertir els true i els false
 
-        boolean valid = true;
-        boolean exists = false;
-        boolean original = false;
-
-        String originalNif = "";
+        boolean exists = false; // torne true si existeix i false si no ha trobat cap
 
         for (Customer customer : customerDirectory) {
-
-            if (!original) {
-                originalNif = customer.getNif();
-                original = true;
-            }
-
-            if (customer.getNif().equals(nif) && !exists) {
+            if (this.findByNif(nif).isPresent()) {
                 exists = true;
-                nif = customer.getNif();
+                break;
             }
         }
-
-        if (exists) {
-            valid = false;
-        }
-
-        return valid; //retorne valid true si no trobe cap nif igual
+        return exists;
     }
 
     public boolean validateEmailNoRepeated(String email) {
-        boolean valid = true;
+
         boolean exists = false;
-        String originalEmail = "";
-        boolean original = false;
 
         for (Customer customer : customerDirectory) {
-            if (!original) {
-                originalEmail = customer.getEmail();
-                original = true;
-            }
-
-            if (originalEmail.equalsIgnoreCase(customer.getEmail())) {
-                original = true;
-            }
-
-            if (customer.getEmail().equals(email) && !exists) {
+            if (this.findByEmail(email).isPresent()) {
                 exists = true;
-                email = customer.getEmail();
+                break;
             }
         }
 
-        if (exists) {
-            valid = false;
-            System.out.println("Customer with email " + email + " already exists");
-        }
-
-        return valid;
+        return exists; // si es false signifique que no existeix
     }
 
-    public Optional<Customer> findByNif(String nif) {
-
-        Customer c = new Customer();
-        boolean customerFound = false;
+    public Optional<Customer> findByNif(String nif) { // adaptar els altres com aquest
 
         for (Customer customer : customerDirectory) {
-            if (nif.equalsIgnoreCase(customer.getNif()) && (!customerFound)) {
-                customerFound = true;
-                c = customer;
+            if (nif.equalsIgnoreCase(customer.getNif())) {
+                return Optional.of(customer);
             }
         }
-        if (!customerFound) {
-            System.out.println("Customer with nif " + nif + " was not found in the database.");
-        }
-        return Optional.of(c);
+
+        return Optional.empty();
     }
 
     public Optional<Customer> findByEmail(String email) {
 
-        Customer c = new Customer();
-        boolean customerFound = false;
-
         for (Customer customer : customerDirectory) {
             if (email.equalsIgnoreCase(customer.getEmail())) {
-                customerFound = true;
-                c = customer;
+                return Optional.of(customer);
             }
         }
-        if (!customerFound) {
-            System.out.println("Customer with email " + email + " was not found in the database.");
-        }
-        return Optional.of(c);
+
+        return Optional.empty();
     }
 
     public ArrayList<Customer> findByName(String name) {
 
         ArrayList<Customer> list = new ArrayList<>();
         boolean customerFound = false;
-        for (Customer customer : customerDirectory) {
+        for (Customer customer : customerDirectory) { // s ha de mantenir aixi per que ha de poder tornar varios customers
 
             if (name.equalsIgnoreCase(customer.getName())) {
                 customerFound = true;
@@ -487,182 +213,4 @@ public class CustomerDirectoryService implements CustomerDirectory {
         return list;
     }
 
-    public boolean validateNif(String Nif) throws InvalidNifException {
-
-        boolean valid = false;
-
-
-        String numnif = "";
-
-        if (Nif.length() == 9) {
-
-            for (int i = 0; i <= 7; i++) {
-                numnif += Nif.charAt(i);
-                if (!Character.isDigit(Nif.charAt(i))) {
-                    valid = false;
-                    //System.out.println("This nif is not correct, " + Nif.charAt(i) + " is not a number");
-                }
-            }
-
-            if (Character.isAlphabetic(Nif.charAt(8))) {
-                valid = true;
-            } else {
-                valid = false;
-                //System.out.println("Last character of the nif is not a letter");
-            }
-        } else {
-            //System.out.println("This nif does not have 9 characters");
-            valid = false;
-        }
-
-        // Validación del DNI
-        if (valid) {
-
-            char lletraDNI = Nif.charAt(8);
-
-            int numDNI = Integer.parseInt(numnif);
-            String DNI = "";
-            String[] lletresMaj = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
-            String[] lletresMin = {"t", "r", "w", "a", "g", "m", "y", "f", "p", "d", "x", "b", "n", "j", "z", "s", "q", "v", "h", "l", "c", "k", "e"};
-
-            int modDNI = numDNI % 23;
-            if (Character.isUpperCase(lletraDNI)) {
-                DNI += lletresMaj[modDNI];
-            } else if (Character.isLowerCase(lletraDNI)) {
-                DNI += lletresMin[modDNI];
-            }
-            if (lletraDNI == DNI.charAt(0)) {
-                Nif = numnif + DNI;
-                valid = true;
-
-            } else {
-                valid = false;
-                //throw new InvalidNifException("This nif is not well calculated");
-            }
-
-        } else {
-            //System.out.println("This nif is not valid");
-            valid = false;
-        }
-        return valid;
-
-    }
-
-    public boolean validateEmail(String email) throws InvalidEmailException {
-
-        boolean valid = true;
-
-        String patro = "^(.+)@(.+)$";
-        Pattern pattern = Pattern.compile(patro);
-        Matcher matcher = pattern.matcher(email);
-        if (!email.isBlank()) {
-            if (matcher.matches()) {
-                email = email.replaceAll("\\s", "");
-                valid = true;
-            } else {
-                valid = false;
-            }
-        } else {
-            valid = false;
-            throw new InvalidEmailException("The email: " + email + " is not valid");
-        }
-
-        return valid;
-    }
-
-    public boolean validateName(String name) {
-
-        boolean valid = false;
-        int c1 = 0;
-
-        for (char c : name.toCharArray()) {
-            if (valid || c1 == 0) {
-                c1++;
-                if (Character.isLetter(c) || c == ' ') {
-                    valid = true;
-                } else {
-                    valid = false;
-                }
-            }
-        }
-
-        if (name.isBlank()) {
-            valid = false;
-        }
-        return valid;
-    }
-
-    public boolean validateSurname(String surname) {
-
-        boolean valid = false;
-        int c1 = 0;
-
-        for (char c : surname.toCharArray()) {
-            if (valid || c1 == 0) {// falle al seguir executant el bucle i pille com a valids cognoms no valids sense el contador c1 o un break
-                c1++;
-                if (Character.isLetter(c) || c == ' ') {
-                    valid = true;
-                } else {
-                    valid = false;
-                }
-            }
-        }
-
-        if (surname.isBlank()) {
-            valid = false;
-        }
-        return valid;
-    }
-
-    public boolean validateCity(String city) {
-
-        boolean valid = false;
-        boolean trobada = false;
-        String validatedCity = "";
-        Locale[] locales = Locale.getAvailableLocales();
-
-        if (city.isBlank()) {
-            valid = false;
-        } else {
-            for (char c : city.toCharArray()) {
-
-                if (Character.isLetter(c) || c == ' ') {
-                    valid = true;
-                    validatedCity += c;
-                } else {
-                    return false; //amb la variable valid no funciona be ja que pille valids noms que tenen numeros per que el bucle continue i valid es torne a ficar true
-                }
-
-            }
-            for (Locale locale : locales) {
-                if (!trobada) {
-                    if (validatedCity.equalsIgnoreCase(locale.getDisplayCountry())) {
-                        valid = false;
-                        trobada = true;
-                    } else {
-                        valid = true;
-                        trobada = false;
-                    }
-                }
-            }
-        }
-        return valid;
-    }
-
-    public boolean validateCountry(String country) {
-
-        boolean valid = false;
-        Locale[] locales = Locale.getAvailableLocales();
-
-            for (Locale locale : locales) {
-                if (!valid) {
-                    if (country.equalsIgnoreCase(locale.getDisplayCountry()) && ((country != null))) {
-                        valid = true;
-                        country = locale.getDisplayCountry();
-                    }
-                }
-            }
-
-        return valid;
-    }
 }
